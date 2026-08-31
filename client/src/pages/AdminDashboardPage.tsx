@@ -33,7 +33,7 @@ export function AdminDashboardPage() {
   };
 
   return (
-    <section className="py-12 sm:py-16 md:py-24">
+    <section className="relative overflow-hidden py-12 sm:py-16 md:py-24 w-full">
       <SEO title="Admin Dashboard" noindex={true} />
       <Container>
         {/* Header */}

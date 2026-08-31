@@ -20,7 +20,7 @@ export function About() {
       ];
 
   return (
-    <section id="about" className="py-12 sm:py-16 md:py-24">
+    <section id="about" className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full">
       <Container>
         <SectionHeading
           title={t('about.title')}
@@ -59,23 +59,23 @@ export function About() {
                   key={idx}
                   whileHover={{ y: -4, scale: 1.02 }}
                   transition={{ duration: 0.2 }}
-                  className="group relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-3.5 xs:p-4 sm:p-5 md:p-6 hover:border-[var(--color-accent)]/40 hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 min-w-0"
+                  className="group relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:p-5 md:p-6 hover:border-[var(--color-accent)]/40 hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 min-w-0"
                 >
                   <div className="absolute top-0 right-0 w-16 sm:w-24 h-16 sm:h-24 bg-[var(--color-accent)]/5 rounded-bl-full pointer-events-none group-hover:bg-[var(--color-accent)]/10 transition-colors" />
 
                   <div className="flex items-center justify-between gap-2 mb-2 sm:mb-3">
-                    <span className="text-xl xs:text-2xl sm:text-3xl font-extrabold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">
+                    <span className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">
                       {stat.value}
                     </span>
-                    <div className="w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10 rounded-xl bg-[var(--color-accent)]/10 flex items-center justify-center text-[var(--color-accent)] group-hover:bg-[var(--color-accent)]/20 transition-colors shrink-0">
-                      <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[var(--color-accent)]/10 flex items-center justify-center text-[var(--color-accent)] group-hover:bg-[var(--color-accent)]/20 transition-colors shrink-0">
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                   </div>
 
-                  <h3 className="font-semibold text-xs xs:text-sm sm:text-base text-[var(--color-text-primary)] mb-0.5 sm:mb-1 break-words">
+                  <h3 className="font-semibold text-xs sm:text-sm md:text-base text-[var(--color-text-primary)] mb-0.5 sm:mb-1 break-words">
                     {stat.label}
                   </h3>
-                  <p className="text-[10px] xs:text-xs text-[var(--color-text-tertiary)] leading-tight sm:leading-snug break-words">
+                  <p className="text-xs text-[var(--color-text-tertiary)] leading-tight sm:leading-snug break-words">
                     {stat.detail}
                   </p>
                 </motion.div>

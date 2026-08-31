@@ -41,7 +41,7 @@ export function Skills() {
   const { t } = useTranslation();
 
   return (
-    <section id="skills" className="py-12 sm:py-16 md:py-24">
+    <section id="skills" className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full">
       <Container>
         <SectionHeading
           title={t('skills.title')}

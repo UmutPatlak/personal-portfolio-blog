@@ -11,7 +11,7 @@ export function Experience() {
   const experienceItems: ExperienceItem[] = Array.isArray(rawItems) ? rawItems : fallbackExperiences;
 
   return (
-    <section id="experience" className="py-12 sm:py-16 md:py-24">
+    <section id="experience" className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full">
       <Container>
         <SectionHeading
           title={t('experience.title')}
@@ -25,8 +25,8 @@ export function Experience() {
           {experienceItems.map((exp, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="relative pl-6 sm:pl-10 md:pl-14 pb-8 sm:pb-12 last:pb-0 w-full min-w-0"
@@ -66,8 +66,8 @@ export function Experience() {
                   {exp.achievements.map((achievement, i) => (
                     <motion.li
                       key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.3 + i * 0.05 }}
                       className="flex gap-2.5 sm:gap-3 items-start text-xs sm:text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed"

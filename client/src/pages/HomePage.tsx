@@ -9,7 +9,7 @@ import { Contact } from '@/components/home/Contact';
 
 export function HomePage() {
   return (
-    <div className="space-y-6 sm:space-y-10 md:space-y-12 pb-12 sm:pb-16">
+    <div className="w-full overflow-x-hidden pb-12 sm:pb-16">
       <SEO
         title="Umut Patlak — Full-Stack Developer | React, NestJS, Spring Boot"
         url="/"

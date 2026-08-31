@@ -59,7 +59,7 @@ export function Projects() {
       ];
 
   return (
-    <section id="projects" className="py-12 sm:py-16 md:py-24">
+    <section id="projects" className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full">
       <Container>
         <SectionHeading
           title={t('projects.title')}
@@ -71,7 +71,7 @@ export function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 shadow-xl hover:border-[var(--color-accent)]/30 transition-all duration-300 overflow-hidden"
+          className="relative rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 sm:p-8 md:p-10 lg:p-12 shadow-xl hover:border-[var(--color-accent)]/30 transition-all duration-300 overflow-hidden"
         >
           {/* Subtle background glow */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-accent)]/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
@@ -85,7 +85,7 @@ export function Projects() {
                   <Layers className="w-3.5 h-3.5" />
                   <span>{t('projects.featuredBadge')}</span>
                 </div>
-                <h3 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-extrabold text-[var(--color-text-primary)] tracking-tight">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[var(--color-text-primary)] tracking-tight">
                   {projectTitle}
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base font-medium text-[var(--color-accent-secondary)]">

@@ -21,9 +21,9 @@ export function Layout() {
   }, [pathname, hash]);
 
   return (
-    <div className="min-h-screen flex flex-col noise-bg">
+    <div className="min-h-screen flex flex-col noise-bg w-full overflow-x-hidden">
       <Navbar />
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-16 w-full overflow-x-hidden">
         <Outlet />
       </main>
       <Footer />

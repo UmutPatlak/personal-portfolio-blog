@@ -24,7 +24,7 @@ export function BlogPostPage() {
 
   if (isLoading) {
     return (
-      <section className="py-12 sm:py-16 min-h-[calc(100vh-4rem)]">
+      <section className="relative overflow-hidden py-12 sm:py-16 min-h-[calc(100vh-4rem)] w-full">
         <SEO title="Loading Post..." noindex={true} />
         <Container className="max-w-3xl">
           <div className="animate-pulse space-y-4">
@@ -39,7 +39,7 @@ export function BlogPostPage() {
 
   if (error || !post) {
     return (
-      <section className="py-12 sm:py-16 min-h-[calc(100vh-4rem)]">
+      <section className="relative overflow-hidden py-12 sm:py-16 min-h-[calc(100vh-4rem)] w-full">
         <SEO title="Post Not Found" noindex={true} />
         <Container className="max-w-3xl text-center">
           <h1 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4">
@@ -67,7 +67,7 @@ export function BlogPostPage() {
       .slice(0, 160);
 
   return (
-    <section className="py-12 sm:py-16 min-h-[calc(100vh-4rem)]">
+    <section className="relative overflow-hidden py-12 sm:py-16 min-h-[calc(100vh-4rem)] w-full">
       <SEO
         title={post.title}
         description={cleanDescription}

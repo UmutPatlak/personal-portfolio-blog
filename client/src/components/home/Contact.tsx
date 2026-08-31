@@ -37,7 +37,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-12 sm:py-16 md:py-24">
+    <section id="contact" className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full">
       <Container>
         <SectionHeading
           title={t('contact.title')}
@@ -47,8 +47,8 @@ export function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-start">
           {/* Contact Info */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="lg:col-span-5 space-y-6 min-w-0"
           >
@@ -76,8 +76,8 @@ export function Contact() {
 
           {/* Contact Form */}
           <motion.form
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             onSubmit={handleSubmit}
             className="lg:col-span-7 space-y-4 min-w-0 w-full"

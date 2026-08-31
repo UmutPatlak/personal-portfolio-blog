@@ -15,7 +15,7 @@ export function Education() {
   const langList: LanguageItem[] = Array.isArray(rawLanguages) ? rawLanguages : fallbackLanguages;
 
   return (
-    <section id="education" className="py-12 sm:py-16 md:py-24">
+    <section id="education" className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full">
       <Container>
         <SectionHeading title={t('education.title')} />
 

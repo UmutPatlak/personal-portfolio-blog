@@ -28,7 +28,7 @@ export function BlogPage() {
   );
 
   return (
-    <section className="py-12 sm:py-16 min-h-[calc(100vh-4rem)]">
+    <section className="relative overflow-hidden py-12 sm:py-16 min-h-[calc(100vh-4rem)] w-full">
       <SEO
         title={t('blog.title')}
         description="Articles, architectural notes, and tutorials on Full-Stack Web Development, React, NestJS, TypeScript, Spring Boot, and cloud architecture by Umut Patlak."

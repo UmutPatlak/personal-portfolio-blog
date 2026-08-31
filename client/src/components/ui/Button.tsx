@@ -23,11 +23,11 @@ export function Button({
     primary:
       'bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-secondary)] text-white hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] active:scale-[0.98]',
     secondary:
-      'bg-[var(--color-surface)] text-[var(--color-text-primary)] border border-[var(--color-border)] hover:border-[var(--color-border-hover)] hover:bg-[var(--color-surface-hover)]',
+      'bg-[var(--color-surface)] text-[var(--color-text-primary)] border border-[var(--color-border)] hover:border-[var(--color-accent)]/40 hover:bg-[var(--color-surface-hover)] hover:shadow-[var(--shadow-card)] hover:scale-[1.02] active:scale-[0.98]',
     ghost:
-      'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface)]',
+      'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface)] active:scale-[0.98]',
     outline:
-      'border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-white',
+      'border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-white hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] active:scale-[0.98]',
   };
 
   const sizes = {

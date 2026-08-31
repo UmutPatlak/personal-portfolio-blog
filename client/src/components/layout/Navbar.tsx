@@ -1,28 +1,54 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Terminal } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Container } from '@/components/ui/Container';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { LanguageToggle } from '@/components/ui/LanguageToggle';
 import { cn } from '@/lib/utils';
 
-const navLinks = [
-  { href: '/#experience', label: 'Experience' },
-  { href: '/#projects', label: 'Projects' },
-  { href: '/#skills', label: 'Skills' },
-  { href: '/#contact', label: 'Contact' },
-  { href: '/blog', label: 'Blog' },
-];
-
 export function Navbar() {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('');
   const location = useLocation();
 
+  const navLinks = [
+    { href: '/#about', id: 'about', label: t('nav.about') },
+    { href: '/#experience', id: 'experience', label: t('nav.experience') },
+    { href: '/#projects', id: 'projects', label: t('nav.projects') },
+    { href: '/#skills', id: 'skills', label: t('nav.skills') },
+    { href: '/#contact', id: 'contact', label: t('nav.contact') },
+    { href: '/blog', id: 'blog', label: t('nav.blog') },
+  ];
+
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+
+      if (location.pathname === '/') {
+        const sections = ['about', 'experience', 'projects', 'skills', 'contact'];
+        const scrollPosition = window.scrollY + 200;
+
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const sectionId = sections[i]!;
+          const el = document.getElementById(sectionId);
+          if (el && el.offsetTop <= scrollPosition) {
+            setActiveSection(sectionId);
+            return;
+          }
+        }
+        if (window.scrollY < 200) {
+          setActiveSection('');
+        }
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     setIsMobileOpen(false);
@@ -39,11 +65,21 @@ export function Navbar() {
     }
   };
 
+  const isLinkActive = (link: { href: string; id?: string }) => {
+    if (link.href === '/blog') {
+      return location.pathname.startsWith('/blog');
+    }
+    if (location.pathname === '/') {
+      return activeSection === link.id;
+    }
+    return false;
+  };
+
   return (
     <nav
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled
+        isScrolled || isMobileOpen
           ? 'glass border-b border-[var(--color-border)] shadow-lg'
           : 'bg-transparent'
       )}
@@ -63,28 +99,33 @@ export function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                onClick={() => handleNavClick(link.href)}
-                className={cn(
-                  'px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-                  location.pathname === link.href || (link.href === '/blog' && location.pathname.startsWith('/blog'))
-                    ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10'
-                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface)]'
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="ml-2">
+            {navLinks.map((link) => {
+              const active = isLinkActive(link);
+              return (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => handleNavClick(link.href)}
+                  className={cn(
+                    'px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                    active
+                      ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10 font-semibold shadow-xs'
+                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface)]'
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+            <div className="flex items-center gap-1.5 ml-2">
+              <LanguageToggle />
               <ThemeToggle />
             </div>
           </div>
 
           {/* Mobile Controls */}
           <div className="flex items-center gap-2 md:hidden">
+            <LanguageToggle />
             <ThemeToggle />
             <button
               onClick={() => setIsMobileOpen(!isMobileOpen)}
@@ -101,25 +142,28 @@ export function Navbar() {
         <div
           className={cn(
             'md:hidden overflow-hidden transition-all duration-300 ease-in-out',
-            isMobileOpen ? 'max-h-80 opacity-100 pb-4' : 'max-h-0 opacity-0'
+            isMobileOpen ? 'max-h-96 opacity-100 pb-4 pt-2' : 'max-h-0 opacity-0'
           )}
         >
-          <div className="flex flex-col gap-1 pt-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                onClick={() => handleNavClick(link.href)}
-                className={cn(
-                  'px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
-                  location.pathname === link.href
-                    ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10'
-                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface)]'
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="flex flex-col gap-1 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 shadow-xl">
+            {navLinks.map((link) => {
+              const active = isLinkActive(link);
+              return (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => handleNavClick(link.href)}
+                  className={cn(
+                    'px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
+                    active
+                      ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10 font-semibold'
+                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)]'
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </Container>

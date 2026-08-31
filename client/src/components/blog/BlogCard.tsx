@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/Badge';
 import { formatDate } from '@/lib/utils';
 import type { Post } from '@/types/post';
@@ -9,6 +10,8 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ post }: BlogCardProps) {
+  const { t, i18n } = useTranslation();
+
   return (
     <Link
       to={`/blog/${post.slug}`}
@@ -19,6 +22,8 @@ export function BlogCard({ post }: BlogCardProps) {
           <img
             src={post.coverImage}
             alt={post.title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </div>
@@ -28,12 +33,12 @@ export function BlogCard({ post }: BlogCardProps) {
         {post.publishedAt && (
           <span className="flex items-center gap-1">
             <Calendar className="w-3 h-3" />
-            {formatDate(post.publishedAt)}
+            {formatDate(post.publishedAt, i18n.language)}
           </span>
         )}
         <span className="flex items-center gap-1">
           <Clock className="w-3 h-3" />
-          {post.readingTime} min read
+          {t('blog.minRead', { count: post.readingTime })}
         </span>
       </div>
 
@@ -54,7 +59,7 @@ export function BlogCard({ post }: BlogCardProps) {
           ))}
         </div>
         <span className="flex items-center gap-1 text-sm text-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          Read more <ArrowRight className="w-3.5 h-3.5" />
+          {t('blog.readMore')} <ArrowRight className="w-3.5 h-3.5" />
         </span>
       </div>
     </Link>

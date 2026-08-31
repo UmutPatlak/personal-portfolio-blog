@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
-/* ─── Design Tokens ─── */
-@theme {
+/* ─── Design Tokens & Theme Variables ─── */
+:root {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Dark-first color palette */
+  /* Dark palette (default) */
   --color-bg-primary: #0a0a0f;
   --color-bg-secondary: #12121a;
   --color-surface: #1a1a2e;
   --color-surface-hover: #222240;
   --color-surface-elevated: #252545;
-  --color-border: rgba(255, 255, 255, 0.06);
-  --color-border-hover: rgba(255, 255, 255, 0.12);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.16);
 
   --color-accent: #6366f1;
   --color-accent-hover: #818cf8;
@@ -25,26 +25,34 @@
   --color-text-tertiary: #64748b;
   --color-text-muted: #475569;
 
-  /* Light mode overrides */
-  --color-light-bg-primary: #fafbfc;
-  --color-light-bg-secondary: #f1f5f9;
-  --color-light-surface: #ffffff;
-  --color-light-surface-hover: #f8fafc;
-  --color-light-border: rgba(0, 0, 0, 0.08);
-  --color-light-border-hover: rgba(0, 0, 0, 0.15);
-  --color-light-text-primary: #0f172a;
-  --color-light-text-secondary: #475569;
-  --color-light-text-tertiary: #64748b;
-
-  /* Shadows */
   --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
   --shadow-glow-lg: 0 0 40px rgba(99, 102, 241, 0.2);
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.12);
-  --shadow-card-hover: 0 8px 40px rgba(0, 0, 0, 0.2);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
+  --shadow-card-hover: 0 8px 40px rgba(0, 0, 0, 0.35);
 
-  /* Animations */
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Light mode overrides */
+html.light {
+  --color-bg-primary: #f8fafc;
+  --color-bg-secondary: #eef2f6;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f5f9;
+  --color-surface-elevated: #ffffff;
+  --color-border: rgba(15, 23, 42, 0.08);
+  --color-border-hover: rgba(15, 23, 42, 0.16);
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #64748b;
+  --color-text-muted: #94a3b8;
+
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.1);
+  --shadow-glow-lg: 0 0 40px rgba(99, 102, 241, 0.15);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* ─── Base Styles ─── */
@@ -58,6 +66,7 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Dark Mode (default) */
@@ -68,14 +77,18 @@ html.dark body {
 
 /* Light Mode */
 html.light body {
-  background: var(--color-light-bg-primary);
-  color: var(--color-light-text-primary);
+  background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+  color: var(--color-text-primary);
 }
 
 body {
   font-family: var(--font-sans);
   min-height: 100vh;
   transition: background-color 0.3s var(--ease-smooth), color 0.3s var(--ease-smooth);
+  line-height: 1.6;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 /* ─── Scrollbar ─── */
@@ -178,10 +191,10 @@ pre code {
 }
 
 /* ─── Markdown Content ─── */
-.prose-custom h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
-.prose-custom h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
-.prose-custom h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
-.prose-custom p { margin-bottom: 1rem; line-height: 1.8; }
+.prose-custom h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+.prose-custom h2 { font-size: 1.875rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; }
+.prose-custom h3 { font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+.prose-custom p { margin-bottom: 1.25rem; line-height: 1.75; color: var(--color-text-secondary); }
 .prose-custom ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
 .prose-custom ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
 .prose-custom li { margin-bottom: 0.25rem; }

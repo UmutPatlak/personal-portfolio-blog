@@ -1,0 +1,184 @@
+{
+  "nav": {
+    "about": "About",
+    "experience": "Experience",
+    "projects": "Featured Project",
+    "skills": "Skills",
+    "education": "Education",
+    "contact": "Contact",
+    "blog": "Blog"
+  },
+  "hero": {
+    "available": "Available for opportunities",
+    "greeting": "Hi, I'm",
+    "title": "Full-Stack Developer",
+    "bio": "Full-stack developer with hands-on production experience contributing to a multi-tenant EV charging SaaS platform. Focused on shipping robust, end-to-end features and scalable full-stack solutions.",
+    "location": "Istanbul, Turkey",
+    "downloadCv": "Download CV",
+    "scrollDown": "Scroll down"
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Passionate about reliable architectures, clean code, and practical software engineering.",
+    "paragraph1": "I am a Full-Stack Developer with hands-on experience building, maintaining, and scaling production platforms in real-world multi-tenant SaaS environments. My engineering approach centers on delivering dependable features, designing resilient APIs, and crafting intuitive, responsive user interfaces.",
+    "paragraph2": "Having contributed to large-scale platforms serving 1,200+ IoT-connected EV stations in cross-functional teams of ~20 engineers, I thrive at the intersection of backend stability, database optimization, and modern reactive frontends.",
+    "stats": [
+      {
+        "value": "1,200+",
+        "label": "EV Stations Managed",
+        "detail": "Production scale across Turkey"
+      },
+      {
+        "value": "~20",
+        "label": "Team Members",
+        "detail": "Cross-functional engineering & QA"
+      },
+      {
+        "value": "70+",
+        "label": "REST Endpoints",
+        "detail": "Designed & implemented end-to-end"
+      },
+      {
+        "value": "SaaS",
+        "label": "Multi-Tenant Architecture",
+        "detail": "Strict data isolation & security"
+      }
+    ]
+  },
+  "experience": {
+    "title": "Experience",
+    "subtitle": "My professional journey building production software.",
+    "items": [
+      {
+        "company": "Zebra Elektronik",
+        "role": "Full-Stack Developer",
+        "location": "Istanbul, Turkey",
+        "period": "Jan 2026 – Aug 2026",
+        "description": "Contributed to two production Angular + Spring Boot platforms (EZCMP charge management & EZCSMS station management) serving 1,200+ EV charging stations across multiple operator tenants in Turkey. Worked in a cross-functional team of ~20 colleagues across engineering, product, and QA.",
+        "achievements": [
+          "Built an end-to-end manual transaction creation flow (Angular modal + Spring Boot service with CSMS integration, input sanitization, and gift balance validation) used by support agents to recover failed charging sessions.",
+          "Designed and shipped an automatic transaction-timeout service that auto-closes and invalidates zero-energy charging sessions inactive for >24h, eliminating stale data in the customer-facing mobile app.",
+          "Fixed a tenant-isolation bug exposing other users' RFID requests; resolved a discount-visibility regression where HOME/WORKPLACE EVSE discounts were missing on the mobile station endpoint.",
+          "Made corporate-contract \"tax office\" and \"company name\" fields inline-editable across Angular UI, REST endpoint, and ContractService, including request DTO design and CORS configuration.",
+          "Shipped the \"Invalid Transactions\" filter end-to-end (UI control, query parameter, backend predicate, EN/TR i18n) and replaced a brittle 1-day export window with a 1000-record cap.",
+          "Hardened production code with multiple NPE / HTTP 500 fixes and implemented SOC-80% push notification logic with duplicate prevention.",
+          "Enhanced finance team's first-debt Excel report with account code, balance, phone number, and first-debt date columns; reduced SMS resend cooldowns from 3 min to 60s after UX feedback."
+        ]
+      }
+    ]
+  },
+  "projects": {
+    "title": "Featured Project",
+    "subtitle": "A deep dive into my solo full-stack architecture and implementation.",
+    "featuredBadge": "Featured Architecture",
+    "architectureTitle": "Key Architecture Highlights",
+    "viewSource": "View Source Code",
+    "viewDemo": "Live Demo",
+    "features": [
+      {
+        "title": "Mock-First API Architecture",
+        "description": "Single GatewayApi TypeScript interface backed by both mockApi.ts and realApi.ts, catching contract drift at compile time."
+      },
+      {
+        "title": "Real-Time SSE Streaming",
+        "description": "Live station telemetry and connectivity status over Server-Sent Events with unified subscription handlers."
+      },
+      {
+        "title": "Hardened Auth & Security",
+        "description": "JWT with in-memory token store mirrored to sessionStorage (narrower XSS surface) & centralized auto-logout."
+      },
+      {
+        "title": "70+ REST Endpoints",
+        "description": "Full lifecycle modeling for station registration, OCPP admin commands, configuration mappings, and tenant isolation."
+      }
+    ],
+    "items": [
+      {
+        "title": "OCPP Gateway Admin Panel",
+        "type": "Solo Full-Stack Project",
+        "description": "A comprehensive white-label admin console for an enterprise OCPP gateway product. Operators can monitor every station connection, manage tenants and API keys, execute remote OCPP commands, and run gateway-level configurations.",
+        "highlights": [
+          "Implemented a mock-first API architecture: a single GatewayApi TypeScript interface backed by both mockApi.ts and realApi.ts, catching drift at compile time.",
+          "Real-time station/event streaming over Server-Sent Events with a unified subscription handler that works identically in mock and real modes.",
+          "Auth designed around JWT + in-memory token store mirrored to sessionStorage (narrower XSS surface) with centralized gateway:unauthorized event for forced logout.",
+          "Modeled 70+ REST endpoints across tenant management, station registration, OCPP admin commands, configuration mappings, command history, and authentication.",
+          "Added permission-gated routes, route-level error boundaries, and EN/TR i18n."
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "title": "Skills",
+    "subtitle": "Technologies and tools I work with daily.",
+    "categories": {
+      "Languages": "Languages",
+      "Frontend": "Frontend",
+      "Backend": "Backend",
+      "Database": "Database",
+      "Tools & CI/CD": "Tools & CI/CD",
+      "AI & Productivity": "AI & Productivity",
+      "Concepts": "Concepts"
+    }
+  },
+  "education": {
+    "title": "Education & Languages",
+    "eduTitle": "Education",
+    "items": [
+      {
+        "institution": "Okan University",
+        "degree": "B.Sc.",
+        "field": "Information Systems and Technologies"
+      }
+    ],
+    "langTitle": "Languages",
+    "languages": [
+      {
+        "language": "English",
+        "proficiency": "Professional working proficiency"
+      },
+      {
+        "language": "Turkish",
+        "proficiency": "Native"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Have a project in mind? Let's talk about it.",
+    "intro": "I'm always interested in hearing about new opportunities, interesting projects, or just a friendly chat. Feel free to reach out!",
+    "emailLabel": "Email",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailInputLabel": "Email",
+    "emailPlaceholder": "your@email.com",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "What's this about?",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell me about your project...",
+    "sendButton": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent successfully! I'll get back to you soon.",
+    "error": "Failed to send message. Please try again or email me directly."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Thoughts on code, architecture, and the dev life.",
+    "searchPlaceholder": "Search posts...",
+    "all": "All",
+    "empty": "No posts found. Check back soon!",
+    "error": "Blog posts will appear here once the backend is connected.",
+    "readMore": "Read more",
+    "minRead": "{{count}} min read",
+    "backToBlog": "Back to blog",
+    "postNotFound": "Post not found"
+  },
+  "footer": {
+    "builtWith": "Built with",
+    "techStack": "using React & NestJS"
+  },
+  "language": {
+    "toggle": "Switch language",
+    "en": "English",
+    "tr": "Türkçe"
+  }
+}

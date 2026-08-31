@@ -1,0 +1,184 @@
+{
+  "nav": {
+    "about": "Hakkımda",
+    "experience": "Deneyim",
+    "projects": "Öne Çıkan Proje",
+    "skills": "Yetenekler",
+    "education": "Eğitim",
+    "contact": "İletişim",
+    "blog": "Blog"
+  },
+  "hero": {
+    "available": "Yeni fırsatlara açık",
+    "greeting": "Merhaba, ben",
+    "title": "Full-Stack Geliştirici",
+    "bio": "Çok kiracılı (multi-tenant) elektrikli araç şarj SaaS platformunda canlı üretim ortamı deneyimine sahip full-stack geliştirici. Uçtan uca sağlam özellikler ve ölçeklenebilir full-stack çözümler geliştirmeye odaklanıyor.",
+    "location": "İstanbul, Türkiye",
+    "downloadCv": "CV İndir",
+    "scrollDown": "Aşağı kaydır"
+  },
+  "about": {
+    "title": "Hakkımda",
+    "subtitle": "Güvenilir mimariler, temiz kod ve pratik yazılım mühendisliğine odaklanan yaklaşımım.",
+    "paragraph1": "Gerçek dünya çok kiracılı (multi-tenant) SaaS sistemlerinde canlı üretim ortamlarını geliştirme, yönetme ve ölçeklendirme deneyimine sahip bir Full-Stack Geliştiriciyim. Mühendislik yaklaşımımın merkezinde güvenilir özellikler üretmek, dayanıklı API'lar tasarlamak ve kullanıcı deneyimi yüksek ön yüzler inşa etmek yer alıyor.",
+    "paragraph2": "Mühendislik, ürün ve test ekipleriyle birlikte 1.200'den fazla IoT bağlantılı istasyona hizmet veren platformlara katkı sağlayarak; arka yüz kararlılığı, veritabanı optimizasyonu ve modern reaktif ön yüz mimarilerinin kesişiminde verimli çözümler üretiyorum.",
+    "stats": [
+      {
+        "value": "1.200+",
+        "label": "Yönetilen İstasyon",
+        "detail": "Türkiye genelinde canlı üretim ölçeği"
+      },
+      {
+        "value": "~20",
+        "label": "Ekip Arkadaşı",
+        "detail": "Çapraz fonksiyonel mühendislik & QA"
+      },
+      {
+        "value": "70+",
+        "label": "REST Endpoint",
+        "detail": "Uçtan uca modellenen ve geliştirilen"
+      },
+      {
+        "value": "SaaS",
+        "label": "Multi-Tenant Mimari",
+        "detail": "Kiracı izolasyonu ve güvenli veri yönetimi"
+      }
+    ]
+  },
+  "experience": {
+    "title": "Deneyim",
+    "subtitle": "Canlı sistemler ve üretim yazılımları geliştirme yolculuğum.",
+    "items": [
+      {
+        "company": "Zebra Elektronik",
+        "role": "Full-Stack Geliştirici",
+        "location": "İstanbul, Türkiye",
+        "period": "Oca 2026 – Ağu 2026",
+        "description": "Türkiye genelinde farklı operatör kiracılarına ait 1.200'den fazla elektrikli araç şarj istasyonuna hizmet veren iki canlı Angular + Spring Boot platformuna (EZCMP şarj yönetimi ve EZCSMS istasyon yönetimi) katkıda bulundu. Mühendislik, ürün ve QA ekiplerinden oluşan yaklaşık 20 kişilik çapraz fonksiyonel bir ekipte görev aldı.",
+        "achievements": [
+          "Destek temsilcilerinin başarısız şarj oturumlarını kurtarması için uçtan uca manuel işlem oluşturma akışını geliştirdi (CSMS entegrasyonu, girdi temizleme ve hediye bakiye doğrulaması içeren Angular modal + Spring Boot servisi).",
+          "24 saatten uzun süre inaktif kalan ve sıfır enerji tüketen şarj oturumlarını otomatik kapatıp geçersiz kılan bir işlem zaman aşımı servisi tasarlayarak canlıya aldı; böylece mobil uygulamadaki güncel olmayan veri birikimini engelledi.",
+          "Diğer kullanıcıların RFID isteklerinin görünmesine yol açan kiracı izolasyonu hatasını düzeltti; mobil istasyon endpoint'inde EV/İŞYERİ tipi şarj istasyonu indirimlerinin görünmemesine neden olan regresyonu çözdü.",
+          "Kurumsal sözleşmelerdeki \"vergi dairesi\" ve \"şirket unvanı\" alanlarını Angular arayüzü, REST endpoint'i ve ContractService genelinde satır içi (inline) düzenlenebilir hale getirdi; istek DTO tasarımı ve CORS yapılandırmasını tamamladı.",
+          "\"Geçersiz İşlemler\" filtresini uçtan uca geliştirdi (arayüz kontrolleri, sorgu parametresi, backend sorgu filtreleri, EN/TR i18n) ve kırılgan 1 günlük dışa aktarma kısıtı yerine 1000 kayıt limitli güvenli yapıyı entegre etti.",
+          "Çok sayıda NPE / HTTP 500 hatasını gidererek canlı kod tabanını güçlendirdi ve mükerrer bildirim önleme mekanizmasına sahip %80 şarj doluluk (SOC) push bildirim mantığını geliştirdi.",
+          "Finans ekibinin ilk borç Excel raporunu hesap kodu, bakiye, telefon numarası ve ilk borç tarihi sütunlarıyla zenginleştirdi; kullanıcı geri bildirimleri doğrultusunda SMS tekrar gönderim bekleme süresini 3 dakikadan 60 saniyeye düşürdü."
+        ]
+      }
+    ]
+  },
+  "projects": {
+    "title": "Öne Çıkan Proje",
+    "subtitle": "Sıfırdan tasarlayıp geliştirdiğim kapsamlı full-stack mimari ve uygulama.",
+    "featuredBadge": "Öne Çıkan Mimari",
+    "architectureTitle": "Önemli Mimari Vurgular",
+    "viewSource": "Kaynak Kodu İncele",
+    "viewDemo": "Canlı Önizleme",
+    "features": [
+      {
+        "title": "Mock-Öncelikli API Mimarisi",
+        "description": "mockApi.ts ve realApi.ts tarafından desteklenen tek bir GatewayApi TypeScript arayüzü ile derleme zamanında tip tutarsızlıkları önlendi."
+      },
+      {
+        "title": "Gerçek Zamanlı SSE Akışı",
+        "description": "Server-Sent Events üzerinden hem mock hem de gerçek modda birebir aynı çalışan birleşik abonelik yöneticisiyle canlı istasyon telemetrisi."
+      },
+      {
+        "title": "Güçlendirilmiş Güvenlik & Auth",
+        "description": "Daraltılmış XSS yüzeyi için bellek içi token yapısı (sessionStorage aynalı) ve merkezi 'gateway:unauthorized' otomatik çıkışı."
+      },
+      {
+        "title": "70+ REST Endpoint",
+        "description": "İstasyon kaydı, OCPP komut geçmişi, konfigürasyon eşlemeleri ve kiracı yönetimini kapsayan uçtan uca API tasarımı."
+      }
+    ],
+    "items": [
+      {
+        "title": "OCPP Gateway Yönetim Paneli",
+        "type": "Bireysel Full-Stack Proje",
+        "description": "Bir kurumsal OCPP gateway ürünü için geliştirilmiş kapsamlı white-label yönetim konsolu. Operatörler bağlanan tüm istasyonları canlı izleyebilir, kiracıları ve API anahtarlarını yönetebilir, uzaktan OCPP komutları gönderebilir ve gateway seviyesinde konfigürasyonlar gerçekleştirebilir.",
+        "highlights": [
+          "Mock-öncelikli API mimarisi uygulandı: mockApi.ts ve realApi.ts tarafından desteklenen tek bir GatewayApi TypeScript arayüzü ile derleme zamanında tip tutarsızlıkları önlendi.",
+          "Server-Sent Events üzerinden hem mock hem de gerçek modda birebir aynı çalışan birleşik abonelik yöneticisiyle gerçek zamanlı istasyon/olay akışı sağlandı.",
+          "JWT ve sessionStorage'a yansıtılan bellek içi token deposu (daraltılmış XSS yüzeyi) etrafında tasarlanan kimlik doğrulama ve merkezi 'gateway:unauthorized' olayıyla otomatik oturum kapatma.",
+          "Kiracı yönetimi, istasyon kaydı, OCPP yönetici komutları, konfigürasyon eşlemeleri, komut geçmişi ve kimlik doğrulama süreçlerinde 70'ten fazla REST endpoint modellendi.",
+          "Yetki kontrollü rotalar, rota düzeyinde hata yakalama sınırları (error boundaries) ve EN/TR i18n desteği eklendi."
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "title": "Yetenekler",
+    "subtitle": "Günlük olarak çalıştığım teknoloji ve araçlar.",
+    "categories": {
+      "Languages": "Programlama Dilleri",
+      "Frontend": "Ön Yüz (Frontend)",
+      "Backend": "Arka Yüz (Backend)",
+      "Database": "Veritabanı",
+      "Tools & CI/CD": "Araçlar & CI/CD",
+      "AI & Productivity": "Yapay Zeka & Üretkenlik",
+      "Concepts": "Kavramlar & Mimari"
+    }
+  },
+  "education": {
+    "title": "Eğitim & Diller",
+    "eduTitle": "Eğitim",
+    "items": [
+      {
+        "institution": "Okan Üniversitesi",
+        "degree": "Lisans",
+        "field": "Bilişim Sistemleri ve Teknolojileri"
+      }
+    ],
+    "langTitle": "Yabancı Diller",
+    "languages": [
+      {
+        "language": "İngilizce",
+        "proficiency": "Profesyonel çalışma yetkinliği"
+      },
+      {
+        "language": "Türkçe",
+        "proficiency": "Ana dil"
+      }
+    ]
+  },
+  "contact": {
+    "title": "İletişime Geçin",
+    "subtitle": "Aklınızda bir proje mi var? Birlikte konuşalım.",
+    "intro": "Yeni fırsatlar, heyecan verici projeler veya sadece tanışmak için her zaman iletişime geçebilirsiniz. Mesaj atmaktan çekinmeyin!",
+    "emailLabel": "E-posta",
+    "nameLabel": "İsim",
+    "namePlaceholder": "Adınız Soyadınız",
+    "emailInputLabel": "E-posta",
+    "emailPlaceholder": "ornek@eposta.com",
+    "subjectLabel": "Konu",
+    "subjectPlaceholder": "Mesajınızın konusu nedir?",
+    "messageLabel": "Mesaj",
+    "messagePlaceholder": "Projenizden veya aklınızdakilerden bahsedin...",
+    "sendButton": "Mesaj Gönder",
+    "sending": "Gönderiliyor...",
+    "success": "Mesajınız başarıyla iletildi! En kısa sürede dönüş yapacağım.",
+    "error": "Mesaj gönderilemedi. Lütfen tekrar deneyin veya doğrudan e-posta gönderin."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Yazılım, mimari ve geliştirici deneyimleri üzerine düşünceler.",
+    "searchPlaceholder": "Yazılarda ara...",
+    "all": "Tümü",
+    "empty": "Henüz yazı bulunamadı. Yakında yeni içerikler eklenecektir!",
+    "error": "Backend bağlantısı sağlandığında blog yazıları burada listelenecektir.",
+    "readMore": "Devamını oku",
+    "minRead": "{{count}} dk okuma",
+    "backToBlog": "Bloga geri dön",
+    "postNotFound": "Yazı bulunamadı"
+  },
+  "footer": {
+    "builtWith": "Geliştirildi:",
+    "techStack": "React & NestJS kullanılarak"
+  },
+  "language": {
+    "toggle": "Dili değiştir",
+    "en": "English",
+    "tr": "Türkçe"
+  }
+}

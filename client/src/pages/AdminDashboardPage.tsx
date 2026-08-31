@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Plus, Edit3, Trash2, Eye, FileText, LogOut } from 'lucide-react';
+import { SEO } from '@/components/seo/SEO';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -32,7 +33,8 @@ export function AdminDashboardPage() {
   };
 
   return (
-    <section className="py-24">
+    <section className="py-12 sm:py-16 md:py-24">
+      <SEO title="Admin Dashboard" noindex={true} />
       <Container>
         {/* Header */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-10">

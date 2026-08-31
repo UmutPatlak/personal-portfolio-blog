@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Tag } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import { SEO } from '@/components/seo/SEO';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { BlogCard } from '@/components/blog/BlogCard';
 import { blogService } from '@/services/blogService';
 
 export function BlogPage() {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
@@ -25,11 +28,24 @@ export function BlogPage() {
   );
 
   return (
-    <section className="py-24">
+    <section className="py-12 sm:py-16 min-h-[calc(100vh-4rem)]">
+      <SEO
+        title={t('blog.title')}
+        description="Articles, architectural notes, and tutorials on Full-Stack Web Development, React, NestJS, TypeScript, Spring Boot, and cloud architecture by Umut Patlak."
+        url="/blog"
+        keywords={[
+          'Web Development Blog',
+          'React Tutorials',
+          'NestJS Architecture',
+          'TypeScript Best Practices',
+          'Full-Stack Guide',
+          'Software Engineering Articles',
+        ]}
+      />
       <Container>
         <SectionHeading
-          title="Blog"
-          subtitle="Thoughts on code, architecture, and the dev life."
+          title={t('blog.title')}
+          subtitle={t('blog.subtitle')}
         />
 
         {/* Search & Filter */}
@@ -38,7 +54,7 @@ export function BlogPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-muted)]" />
             <input
               type="text"
-              placeholder="Search posts..."
+              placeholder={t('blog.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)] transition-colors"
@@ -57,7 +73,7 @@ export function BlogPage() {
                     : 'bg-[var(--color-surface)] text-[var(--color-text-secondary)] border border-[var(--color-border)] hover:border-[var(--color-border-hover)]'
                 }`}
               >
-                All
+                {t('blog.all')}
               </button>
               {allTags.map((tag) => (
                 <button
@@ -95,7 +111,7 @@ export function BlogPage() {
         {error && (
           <div className="text-center py-16">
             <p className="text-[var(--color-text-secondary)]">
-              Blog posts will appear here once the backend is connected.
+              {t('blog.error')}
             </p>
           </div>
         )}
@@ -104,7 +120,7 @@ export function BlogPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
           >
             {data.data.map((post) => (
               <BlogCard key={post.id} post={post} />
@@ -115,7 +131,7 @@ export function BlogPage() {
         {data && data.data.length === 0 && (
           <div className="text-center py-16">
             <p className="text-[var(--color-text-secondary)] text-lg">
-              No posts found. Check back soon!
+              {t('blog.empty')}
             </p>
           </div>
         )}

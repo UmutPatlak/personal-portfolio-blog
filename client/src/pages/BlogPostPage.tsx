@@ -1,10 +1,12 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { SEO } from '@/components/seo/SEO';
 import { Container } from '@/components/ui/Container';
 import { Badge } from '@/components/ui/Badge';
 import { blogService } from '@/services/blogService';
@@ -12,6 +14,7 @@ import { formatDate } from '@/lib/utils';
 
 export function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
+  const { t, i18n } = useTranslation();
 
   const { data: post, isLoading, error } = useQuery({
     queryKey: ['post', slug],
@@ -21,7 +24,8 @@ export function BlogPostPage() {
 
   if (isLoading) {
     return (
-      <section className="py-24">
+      <section className="py-12 sm:py-16 min-h-[calc(100vh-4rem)]">
+        <SEO title="Loading Post..." noindex={true} />
         <Container className="max-w-3xl">
           <div className="animate-pulse space-y-4">
             <div className="h-8 w-3/4 rounded bg-[var(--color-surface)]" />
@@ -35,42 +39,65 @@ export function BlogPostPage() {
 
   if (error || !post) {
     return (
-      <section className="py-24">
+      <section className="py-12 sm:py-16 min-h-[calc(100vh-4rem)]">
+        <SEO title="Post Not Found" noindex={true} />
         <Container className="max-w-3xl text-center">
           <h1 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4">
-            Post not found
+            {t('blog.postNotFound')}
           </h1>
           <Link
             to="/blog"
             className="text-[var(--color-accent)] hover:underline inline-flex items-center gap-1"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to blog
+            {t('blog.backToBlog')}
           </Link>
         </Container>
       </section>
     );
   }
 
+  // Extract clean plain text for description fallback
+  const cleanDescription =
+    post.summary ||
+    post.content
+      .replace(/[#*`_~[\]()]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 160);
+
   return (
-    <section className="py-24">
+    <section className="py-12 sm:py-16 min-h-[calc(100vh-4rem)]">
+      <SEO
+        title={post.title}
+        description={cleanDescription}
+        image={post.coverImage || undefined}
+        url={`/blog/${post.slug}`}
+        type="article"
+        author="Umut Patlak"
+        publishedTime={post.publishedAt || undefined}
+        modifiedTime={post.updatedAt || undefined}
+        tags={post.tags}
+      />
       <Container className="max-w-3xl">
         {/* Back link */}
-        <Link
-          to="/blog"
-          className="inline-flex items-center gap-1.5 text-sm text-[var(--color-text-tertiary)] hover:text-[var(--color-accent)] transition-colors mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to blog
-        </Link>
+        <div className="mb-6">
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] bg-[var(--color-surface)] border border-[var(--color-border)] hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/40 transition-all duration-200"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            {t('blog.backToBlog')}
+          </Link>
+        </div>
 
         {/* Header */}
-        <header className="mb-10">
-          <h1 className="text-3xl sm:text-4xl font-bold text-[var(--color-text-primary)] mb-4 leading-tight">
+        <header className="mb-8 sm:mb-10">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4 leading-tight break-words">
             {post.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-tertiary)] mb-4">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-[var(--color-text-tertiary)] mb-4">
             <span className="flex items-center gap-1.5">
               <User className="w-3.5 h-3.5" />
               Umut Patlak
@@ -78,12 +105,12 @@ export function BlogPostPage() {
             {post.publishedAt && (
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5" />
-                {formatDate(post.publishedAt)}
+                {formatDate(post.publishedAt, i18n.language)}
               </span>
             )}
             <span className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
-              {post.readingTime} min read
+              {t('blog.minRead', { count: post.readingTime })}
             </span>
           </div>
 
@@ -98,17 +125,19 @@ export function BlogPostPage() {
 
         {/* Cover Image */}
         {post.coverImage && (
-          <div className="mb-10 rounded-2xl overflow-hidden">
+          <div className="mb-8 sm:mb-10 rounded-2xl overflow-hidden">
             <img
               src={post.coverImage}
               alt={post.title}
-              className="w-full h-auto"
+              loading="lazy"
+              decoding="async"
+              className="w-full h-auto object-cover"
             />
           </div>
         )}
 
         {/* Content */}
-        <article className="prose-custom text-[var(--color-text-secondary)]">
+        <article className="prose-custom text-[var(--color-text-secondary)] break-words min-w-0">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{

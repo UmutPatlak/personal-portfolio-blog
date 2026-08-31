@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { SEO } from '@/components/seo/SEO';
 import { Container } from '@/components/ui/Container';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -61,7 +62,8 @@ export function AdminPostEditorPage() {
   };
 
   return (
-    <section className="py-24">
+    <section className="py-12 sm:py-16 md:py-24">
+      <SEO title={isEditing ? 'Edit Post' : 'New Post'} noindex={true} />
       <Container className="max-w-4xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

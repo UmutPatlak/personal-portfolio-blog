@@ -1,6 +1,6 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { eq, asc } from 'drizzle-orm';
-import { DATABASE_TOKEN } from '../app.module';
+import { DATABASE_TOKEN } from '../db/database.module';
 import { type Database } from '../config/database';
 import { projects } from '../db/schema';
 import type { CreateProjectDto } from './dto/create-project.dto';

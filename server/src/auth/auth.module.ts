@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
-import { AppModule, DATABASE_TOKEN } from '../app.module';
+import { DATABASE_TOKEN } from '../db/database.module';
 
 @Module({
   imports: [
@@ -14,8 +14,8 @@ import { AppModule, DATABASE_TOKEN } from '../app.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET', 'fallback-secret'),
-        signOptions: { expiresIn: config.get<string>('JWT_EXPIRATION', '7d') },
+        secret: config.get<string>('JWT_SECRET', 'umut_portfolio_jwt_dev_secret_key_2026_change_in_production'),
+        signOptions: { expiresIn: config.get<string>('JWT_EXPIRATION', '7d') as any },
       }),
     }),
   ],
@@ -23,10 +23,6 @@ import { AppModule, DATABASE_TOKEN } from '../app.module';
   providers: [
     AuthService,
     JwtStrategy,
-    {
-      provide: DATABASE_TOKEN,
-      useExisting: DATABASE_TOKEN,
-    },
   ],
   exports: [AuthService],
 })

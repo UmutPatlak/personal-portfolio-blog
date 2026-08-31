@@ -8,6 +8,7 @@ import {
   UseGuards,
   ParseIntPipe,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { ContactService } from './contact.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -16,6 +17,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
   @Post()
   async create(@Body() dto: CreateMessageDto) {
     return this.contactService.create(dto);

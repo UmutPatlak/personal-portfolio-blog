@@ -1,6 +1,6 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { eq, desc, and, ilike, arrayContains, sql } from 'drizzle-orm';
-import { DATABASE_TOKEN } from '../app.module';
+import { DATABASE_TOKEN } from '../db/database.module';
 import { type Database } from '../config/database';
 import { posts } from '../db/schema';
 import type { CreatePostDto } from './dto/create-post.dto';

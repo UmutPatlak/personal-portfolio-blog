@@ -14,6 +14,7 @@ import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { ScrollReveal, ScrollRevealItem } from '@/components/ui/ScrollReveal';
 import { projects } from '@/data/cv-data';
 
 const featureIcons = [Cpu, Radio, ShieldCheck, Network];
@@ -66,11 +67,12 @@ export function Projects() {
           subtitle={t('projects.subtitle')}
         />
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        {/* Main project card — scale + blur entrance */}
+        <ScrollReveal
+          direction="up"
+          effect="scale"
+          distance={40}
+          duration={0.7}
           className="relative rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 sm:p-8 md:p-10 lg:p-12 shadow-xl hover:border-[var(--color-accent)]/30 transition-all duration-300 overflow-hidden"
         >
           {/* Subtle background glow */}
@@ -79,12 +81,24 @@ export function Projects() {
 
           <div className="relative z-10 space-y-6 sm:space-y-8">
             {/* Header / Project Identity */}
-            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6 pb-6 border-b border-[var(--color-border)]">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6 pb-6 border-b border-[var(--color-border)]"
+            >
               <div className="space-y-2 max-w-3xl">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/20 mb-1">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
+                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/20 mb-1"
+                >
                   <Layers className="w-3.5 h-3.5" />
                   <span>{t('projects.featuredBadge')}</span>
-                </div>
+                </motion.div>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[var(--color-text-primary)] tracking-tight">
                   {projectTitle}
                 </h3>
@@ -97,7 +111,13 @@ export function Projects() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 shrink-0 w-full sm:w-auto">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+                className="flex flex-wrap items-center gap-2.5 sm:gap-3 shrink-0 w-full sm:w-auto"
+              >
                 {primaryProject?.githubUrl && (
                   <a
                     href={primaryProject.githubUrl}
@@ -122,68 +142,123 @@ export function Projects() {
                     </Button>
                   </a>
                 )}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-            {/* Architecture Highlights Grid */}
+            {/* Architecture Highlights Grid — staggered slide from right */}
             <div className="space-y-4">
-              <h4 className="text-base sm:text-lg font-bold text-[var(--color-text-primary)] flex items-center gap-2">
+              <motion.h4
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="text-base sm:text-lg font-bold text-[var(--color-text-primary)] flex items-center gap-2"
+              >
                 <Cpu className="w-5 h-5 text-[var(--color-accent)]" />
                 <span>{t('projects.architectureTitle')}</span>
-              </h4>
+              </motion.h4>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <ScrollReveal
+                stagger
+                staggerDelay={0.1}
+                delay={0.35}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+              >
                 {architectureFeatures.map((feat, idx) => {
                   const Icon = featureIcons[idx % featureIcons.length] ?? Cpu;
                   return (
-                    <motion.div
+                    <ScrollRevealItem
                       key={idx}
-                      whileHover={{ y: -3 }}
-                      className="p-4 sm:p-5 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 hover:bg-[var(--color-bg-secondary)] hover:border-[var(--color-accent)]/30 transition-all duration-200"
+                      direction="right"
+                      effect="fade"
+                      distance={30}
                     >
-                      <div className="w-9 h-9 rounded-xl bg-[var(--color-accent)]/10 text-[var(--color-accent)] flex items-center justify-center mb-3">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <h5 className="font-semibold text-sm sm:text-base text-[var(--color-text-primary)] mb-1">
-                        {feat.title}
-                      </h5>
-                      <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed">
-                        {feat.description}
-                      </p>
-                    </motion.div>
+                      <motion.div
+                        whileHover={{ y: -3 }}
+                        className="p-4 sm:p-5 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 hover:bg-[var(--color-bg-secondary)] hover:border-[var(--color-accent)]/30 transition-all duration-200"
+                      >
+                        <motion.div
+                          initial={{ scale: 0, rotate: -180 }}
+                          whileInView={{ scale: 1, rotate: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.5 + idx * 0.1, type: 'spring', stiffness: 200 }}
+                          className="w-9 h-9 rounded-xl bg-[var(--color-accent)]/10 text-[var(--color-accent)] flex items-center justify-center mb-3"
+                        >
+                          <Icon className="w-4 h-4" />
+                        </motion.div>
+                        <h5 className="font-semibold text-sm sm:text-base text-[var(--color-text-primary)] mb-1">
+                          {feat.title}
+                        </h5>
+                        <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed">
+                          {feat.description}
+                        </p>
+                      </motion.div>
+                    </ScrollRevealItem>
                   );
                 })}
-              </div>
+              </ScrollReveal>
             </div>
 
-            {/* Implementation Highlights Checklist */}
+            {/* Implementation Highlights Checklist — staggered with check icon pop */}
             <div className="space-y-3 pt-2">
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+              <ScrollReveal
+                stagger
+                staggerDelay={0.08}
+                delay={0.2}
+                className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"
+              >
                 {projectHighlights.map((highlight, i) => (
-                  <li
+                  <ScrollRevealItem
                     key={i}
-                    className="flex items-start gap-3 p-3.5 rounded-xl border border-[var(--color-border)]/60 bg-[var(--color-surface)]/80 text-xs sm:text-sm text-[var(--color-text-secondary)] leading-relaxed"
+                    direction="up"
+                    effect="fade"
+                    distance={20}
                   >
-                    <CheckCircle2 className="w-4 h-4 text-[var(--color-accent-emerald)] shrink-0 mt-0.5" />
-                    <span className="flex-1 break-words">{highlight}</span>
-                  </li>
+                    <li
+                      className="flex items-start gap-3 p-3.5 rounded-xl border border-[var(--color-border)]/60 bg-[var(--color-surface)]/80 text-xs sm:text-sm text-[var(--color-text-secondary)] leading-relaxed list-none"
+                    >
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 + i * 0.08, type: 'spring', stiffness: 400 }}
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-[var(--color-accent-emerald)] shrink-0 mt-0.5" />
+                      </motion.span>
+                      <span className="flex-1 break-words">{highlight}</span>
+                    </li>
+                  </ScrollRevealItem>
                 ))}
-              </ul>
+              </ScrollReveal>
             </div>
 
-            {/* Tech Stack */}
-            <div className="pt-4 border-t border-[var(--color-border)] flex flex-wrap items-center gap-2">
+            {/* Tech Stack — slide up with blur */}
+            <motion.div
+              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="pt-4 border-t border-[var(--color-border)] flex flex-wrap items-center gap-2"
+            >
               <span className="text-xs font-semibold text-[var(--color-text-tertiary)] uppercase tracking-wider mr-2">
                 Tech Stack:
               </span>
-              {primaryProject?.stack.map((tech) => (
-                <Badge key={tech} variant="accent">
-                  {tech}
-                </Badge>
+              {primaryProject?.stack.map((tech, idx) => (
+                <motion.span
+                  key={tech}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 + idx * 0.04, duration: 0.3 }}
+                >
+                  <Badge variant="accent">
+                    {tech}
+                  </Badge>
+                </motion.span>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </ScrollReveal>
       </Container>
     </section>
   );

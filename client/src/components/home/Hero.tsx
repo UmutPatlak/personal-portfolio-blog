@@ -1,36 +1,60 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Download, Github, Linkedin, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useRef } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { personalInfo } from '@/data/cv-data';
 
 export function Hero() {
   const { t } = useTranslation();
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  // Parallax glow orbs drift away as user scrolls
+  const orbY1 = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const orbY2 = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const orbScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.2]);
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full flex items-center min-h-[calc(100vh-5rem)]">
-      {/* Background glow orbs - bounded within section */}
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full flex items-center min-h-[calc(100vh-5rem)]"
+    >
+      {/* Background glow orbs - parallax */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute -top-12 -left-12 w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-[var(--color-accent)]/8 blur-3xl" />
-        <div className="absolute -bottom-12 -right-12 w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-[var(--color-accent-secondary)]/8 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 sm:w-[480px] sm:h-[480px] rounded-full bg-[var(--color-accent-cyan)]/4 blur-3xl" />
+        <motion.div
+          style={{ y: orbY1, scale: orbScale }}
+          className="absolute -top-12 -left-12 w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-[var(--color-accent)]/8 blur-3xl"
+        />
+        <motion.div
+          style={{ y: orbY2, scale: orbScale }}
+          className="absolute -bottom-12 -right-12 w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-[var(--color-accent-secondary)]/8 blur-3xl"
+        />
+        <motion.div
+          style={{ y: orbY1 }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 sm:w-[480px] sm:h-[480px] rounded-full bg-[var(--color-accent-cyan)]/4 blur-3xl"
+        />
       </div>
 
       <Container className="relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-12 items-center">
+        <div className="max-w-3xl">
           {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-            className="order-2 lg:order-1 lg:col-span-7 flex flex-col items-start min-w-0 w-full"
+            initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="flex flex-col items-start min-w-0 w-full"
           >
             {/* Status badge */}
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
+              initial={{ opacity: 0, x: -20, scale: 0.9 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/5 text-[var(--color-accent)] text-xs sm:text-sm font-medium mb-4 sm:mb-6"
             >
               <span className="w-2 h-2 rounded-full bg-[var(--color-accent-emerald)] animate-pulse" />
@@ -38,26 +62,58 @@ export function Hero() {
             </motion.div>
 
             {/* Title / Greeting */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.15] mb-3 sm:mb-4 break-words">
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.15] mb-4 sm:mb-6 break-words"
+            >
               {t('hero.greeting')}{' '}
-              <span className="gradient-text inline-block">{personalInfo.name}</span>
-            </h1>
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.6, type: 'spring', stiffness: 120 }}
+                className="gradient-text inline-block"
+              >
+                {personalInfo.name}
+              </motion.span>
+            </motion.h1>
 
-            <h2 className="text-lg sm:text-xl md:text-2xl text-[var(--color-text-secondary)] font-medium mb-4 sm:mb-6 leading-normal">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.6 }}
+              className="text-lg sm:text-xl md:text-2xl text-[var(--color-text-secondary)] font-medium mb-5 sm:mb-7 leading-relaxed"
+            >
               {t('hero.title')}
-            </h2>
+            </motion.h2>
 
-            <p className="text-[var(--color-text-secondary)] text-sm sm:text-base md:text-lg leading-relaxed mb-6 max-w-xl break-words">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45, duration: 0.6 }}
+              className="text-[var(--color-text-secondary)] text-sm sm:text-base md:text-lg leading-relaxed mb-7 sm:mb-8 max-w-2xl break-words"
+            >
               {t('hero.bio')}
-            </p>
+            </motion.p>
 
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-[var(--color-text-tertiary)] mb-6 sm:mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55, duration: 0.5 }}
+              className="flex items-center gap-2 text-xs sm:text-sm text-[var(--color-text-tertiary)] mb-6 sm:mb-8"
+            >
               <MapPin className="w-4 h-4 shrink-0" />
               <span className="break-words">{t('hero.location')}</span>
-            </div>
+            </motion.div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-3 w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.65, duration: 0.6 }}
+              className="flex flex-wrap items-center gap-3 w-full"
+            >
               <a href={`/${personalInfo.cvFileName}`} download className="inline-flex">
                 <Button variant="primary" size="lg" icon={<Download className="w-4 h-4" />}>
                   {t('hero.downloadCv')}
@@ -83,33 +139,7 @@ export function Hero() {
                   LinkedIn
                 </Button>
               </a>
-            </div>
-          </motion.div>
-
-          {/* Photo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.25, ease: [0.4, 0, 0.2, 1] }}
-            className="order-1 lg:order-2 lg:col-span-5 flex justify-center lg:justify-end w-full min-w-0"
-          >
-            <div className="relative flex items-center justify-center">
-              {/* Glow ring behind photo */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[var(--color-accent)] via-[var(--color-accent-secondary)] to-[var(--color-accent-cyan)] blur-2xl opacity-25 scale-105 pointer-events-none" />
-
-              {/* Photo frame */}
-              <div className="relative p-1 sm:p-1.5 rounded-full bg-gradient-to-tr from-[var(--color-accent)] via-[var(--color-accent-secondary)] to-[var(--color-accent-cyan)] shadow-2xl shadow-[var(--color-accent)]/20">
-                <div className="w-44 h-44 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden bg-[var(--color-surface)] border-2 border-[var(--color-bg-primary)]">
-                  <img
-                    src={`/${personalInfo.photoFileName}`}
-                    alt={personalInfo.name}
-                    loading="eager"
-                    decoding="async"
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </Container>

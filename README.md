@@ -115,6 +115,7 @@ personal-portfolio-blog/
 │   ├── package.json
 │   └── tsconfig.json
 │
+├── docker-compose.yml          # PostgreSQL container definition for local development
 ├── .gitignore                  # Git ignore rules for node_modules, build & env
 └── README.md                   # Project documentation
 ```
@@ -165,7 +166,7 @@ The database model is defined via Drizzle ORM:
 ### Prerequisites
 Make sure you have installed:
 - [Node.js](https://nodejs.org/) (v20.x or higher)
-- [PostgreSQL](https://www.postgresql.org/) (v15.x or higher)
+- [Docker Desktop](https://www.docker.com/) (Recommended for running PostgreSQL easily) or [PostgreSQL](https://www.postgresql.org/) (v15.x or higher)
 - [Git](https://git-scm.com/)
 
 ---
@@ -179,25 +180,31 @@ cd personal-portfolio-blog
 
 ---
 
-### 2. Backend Setup (NestJS + PostgreSQL)
+### 2. Database & Backend Setup (NestJS + PostgreSQL)
 
-1. Navigate to the server folder and install dependencies:
+1. **Start PostgreSQL with Docker (Easiest)**:
+   ```bash
+   docker compose up -d
+   ```
+   *(Or make sure your local PostgreSQL service is running)*
+
+2. Navigate to the server folder and install dependencies:
    ```bash
    cd server
    npm install
    ```
 
-2. Create your `.env` configuration file:
+3. Create your `.env` configuration file:
    ```bash
    cp .env.example .env
    ```
 
-3. Update `.env` with your PostgreSQL database credentials and JWT secret:
+4. Update `.env` with your PostgreSQL database credentials (if using Docker compose, default password is `postgres`) and JWT secret:
    ```env
    DATABASE_HOST=localhost
    DATABASE_PORT=5432
    DATABASE_USER=postgres
-   DATABASE_PASSWORD=your_postgres_password
+   DATABASE_PASSWORD=postgres
    DATABASE_NAME=umut_portfolio
 
    JWT_SECRET=your-super-secret-jwt-key
@@ -208,13 +215,13 @@ cd personal-portfolio-blog
    ADMIN_NAME=Umut Patlak
    ```
 
-4. Push the schema to PostgreSQL & seed initial admin user:
+5. Push the schema to PostgreSQL & seed initial admin user:
    ```bash
    npm run db:push
    npm run seed
    ```
 
-5. Start the backend development server:
+6. Start the backend development server:
    ```bash
    npm run start:dev
    ```

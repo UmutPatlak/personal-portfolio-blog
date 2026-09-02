@@ -8,7 +8,6 @@ export const personalInfo = {
   github: 'https://github.com/UmutPatlak',
   linkedin: 'https://linkedin.com/in/umutpatlak',
   cvFileName: 'umutcv.pdf',
-  photoFileName: 'umutphoto.png',
 };
 
 export interface ExperienceItem {

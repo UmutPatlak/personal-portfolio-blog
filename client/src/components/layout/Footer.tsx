@@ -9,7 +9,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-primary)]">
+    <footer className="relative z-10 border-t border-[var(--color-border)] bg-[var(--color-bg-primary)]">
       <Container className="py-6 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

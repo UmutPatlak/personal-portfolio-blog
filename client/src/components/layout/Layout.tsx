@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
+import { Background3D } from '@/components/ui/Background3D';
 
 export function Layout() {
   const { pathname, hash } = useLocation();
@@ -21,9 +22,10 @@ export function Layout() {
   }, [pathname, hash]);
 
   return (
-    <div className="min-h-screen flex flex-col noise-bg w-full overflow-x-hidden">
+    <div className="min-h-screen flex flex-col noise-bg w-full overflow-x-hidden relative">
+      <Background3D />
       <Navbar />
-      <main className="flex-1 pt-16 w-full overflow-x-hidden">
+      <main className="flex-1 pt-16 w-full overflow-x-hidden relative z-10">
         <Outlet />
       </main>
       <Footer />

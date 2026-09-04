@@ -74,6 +74,54 @@ export const projects: ProjectItem[] = [
       'Added permission-gated routes, route-level error boundaries, and EN/TR i18n.',
     ],
   },
+  {
+    title: 'GitHub Repository Monitor Service',
+    type: 'Backend Service & Distributed Systems',
+    stack: [
+      'Java 21',
+      'Spring Boot 3.4',
+      'PostgreSQL 15',
+      'Docker Compose',
+      'Spring Data JPA',
+      'WebClient',
+      'MapStruct',
+      'Jakarta Validation',
+    ],
+    description:
+      'A resilient Spring Boot service that continuously monitors designated GitHub repositories in real-time, stores analytical metadata in PostgreSQL, and provides a robust REST API for repository management.',
+    highlights: [
+      'Concurrency & Optimistic Locking: Handled concurrent synchronization with @Version to prevent race conditions and data conflicts.',
+      'Composite Unique Constraints: Implemented database-level uniqueness across (owner, repo_name) to guarantee zero duplicate tracking.',
+      'Dynamic Querying & Pagination: Built dynamic criteria filtering (language, status) with Spring Data Pageable for optimized retrieval.',
+      'Reactive WebClient Integration: Utilized Spring WebClient for non-blocking communication with GitHub REST API and global exception handling.',
+      'Containerized with Docker: Automated local database provisioning and environment configuration with Docker Compose.',
+    ],
+    githubUrl: 'https://github.com/UmutPatlak/Github-Monitor-Service',
+  },
+  {
+    title: 'Personal Portfolio & Blog Platform',
+    type: 'Solo Full-Stack Project',
+    stack: [
+      'React',
+      'Vite',
+      'TypeScript',
+      'Tailwind CSS',
+      'NestJS',
+      'Drizzle ORM',
+      'PostgreSQL',
+      'Docker',
+      'react-i18next',
+    ],
+    description:
+      'A production-grade personal developer portfolio and content management blog platform with real-time responsive UI, bilingual support (EN/TR), dark/light theme, and dynamic CMS capabilities.',
+    highlights: [
+      'Engineered full-stack architecture with modular NestJS backend, Drizzle ORM type-safe SQL queries, and PostgreSQL.',
+      'Multi-language internationalization (TR/EN) via react-i18next with unified translation keys and persistent user preference.',
+      'Role-based JWT authentication with Bcrypt password hashing and secure admin dashboard for managing articles and inquiries.',
+      'Interactive UI built with Framer Motion, glassmorphism design tokens, fluid responsive layouts, and rich SEO metadata.',
+    ],
+    githubUrl: 'https://github.com/UmutPatlak/personal-portfolio-blog',
+  },
 ];
 
 export interface SkillCategory {

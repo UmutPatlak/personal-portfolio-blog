@@ -92,6 +92,8 @@
         "description": "İstasyon kaydı, OCPP komut geçmişi, konfigürasyon eşlemeleri ve kiracı yönetimini kapsayan uçtan uca API tasarımı."
       }
     ],
+    "otherProjectsTitle": "Diğer Önemli Projeler",
+    "otherProjectsSubtitle": "Mikroservis mimarisi, reaktif akışlar ve tam teşekküllü web uygulamaları.",
     "items": [
       {
         "title": "OCPP Gateway Yönetim Paneli",
@@ -103,6 +105,29 @@
           "JWT ve sessionStorage'a yansıtılan bellek içi token deposu (daraltılmış XSS yüzeyi) etrafında tasarlanan kimlik doğrulama ve merkezi 'gateway:unauthorized' olayıyla otomatik oturum kapatma.",
           "Kiracı yönetimi, istasyon kaydı, OCPP yönetici komutları, konfigürasyon eşlemeleri, komut geçmişi ve kimlik doğrulama süreçlerinde 70'ten fazla REST endpoint modellendi.",
           "Yetki kontrollü rotalar, rota düzeyinde hata yakalama sınırları (error boundaries) ve EN/TR i18n desteği eklendi."
+        ]
+      },
+      {
+        "title": "GitHub Repository Monitor Service",
+        "type": "Arka Yüz (Backend) Mikroservisi",
+        "description": "Belirli GitHub depolarını gerçek zamanlı izleyen, analitik verileri PostgreSQL üzerinde saklayan ve REST API üzerinden yönetim imkanı sunan profesyonel ve dayanıklı bir Spring Boot mikroservisi.",
+        "highlights": [
+          "@Version notasyonu ile İyimser Kilitleme (Optimistic Locking) uygulanarak eş zamanlı veri senkronizasyonlarında çakışma ve veri kaybı önlendi.",
+          "Veritabanı seviyesinde 'owner' ve 'repo_name' alanlarında UNIQUE kısıtı tanımlanarak mükerrer depo takibi engellendi.",
+          "Spring Data Pageable ile sayfalama ve dil/durum parametrelerine göre dinamik filtreleme altyapısı sağlandı.",
+          "Spring WebClient ile reaktif ve bloklamayan GitHub REST API entegrasyonu ve merkezi hata yakalama (Global Exception Handling) mimarisi kuruldu.",
+          "Docker & Docker Compose ile veritabanı ve servis ortamı konteynerize edilerek taşınabilirlik artırıldı."
+        ]
+      },
+      {
+        "title": "Kişisel Portfolyo & Blog Platformu",
+        "type": "Bireysel Full-Stack Proje",
+        "description": "Gerçek zamanlı arayüz etkileşimleri, karanlık/aydınlık tema, çift dilli yerelleştirme ve dinamik CMS kabiliyetlerine sahip üretim kalitesinde geliştirici portfolyo ve blog platformu.",
+        "highlights": [
+          "Modüler NestJS arka yüzü, Drizzle ORM ile tip güvenli SQL sorguları ve PostgreSQL ile uçtan uca full-stack mimari kuruldu.",
+          "react-i18next ile çift dilli (TR/EN) yerelleştirme, dinamik dil değişimi ve kalıcı tercih yönetimi entegre edildi.",
+          "JWT kimlik doğrulama, güvenli şifreleme ve blog yazıları ile iletişim mesajlarını yöneten admin paneli geliştirildi.",
+          "Framer Motion mikro animasyonları, glassmorphism tasarım token'ları, akıcı duyarlı düzen ve SEO optimizasyonu tamamlandı."
         ]
       }
     ]

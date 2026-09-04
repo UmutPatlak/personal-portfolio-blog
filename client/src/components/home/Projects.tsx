@@ -27,6 +27,7 @@ export function Projects() {
     ? (rawItems as Array<{ title?: string; type?: string; description?: string; highlights?: string[] }>)
     : [];
   const primaryProject = projects[0];
+  const otherProjects = projects.slice(1);
 
   const projectTitle = translatedList[0]?.title ?? primaryProject?.title ?? 'OCPP Gateway Admin Panel';
   const projectType = translatedList[0]?.type ?? primaryProject?.type ?? 'Solo Full-Stack Project';
@@ -259,6 +260,115 @@ export function Projects() {
             </motion.div>
           </div>
         </ScrollReveal>
+
+        {/* Other Core Projects Showcase */}
+        {otherProjects.length > 0 && (
+          <div className="mt-16 sm:mt-20 space-y-8">
+            <div className="space-y-2">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--color-text-primary)]">
+                {t('projects.otherProjectsTitle', 'Diğer Önemli Projeler')}
+              </h3>
+              <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
+                {t('projects.otherProjectsSubtitle', 'Mikroservis mimarisi, reaktif akışlar ve tam teşekküllü web sistemleri.')}
+              </p>
+            </div>
+
+            <ScrollReveal
+              stagger
+              staggerDelay={0.15}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8"
+            >
+              {otherProjects.map((proj, idx) => {
+                const trItem = translatedList[idx + 1];
+                const title = trItem?.title ?? proj.title;
+                const type = trItem?.type ?? proj.type;
+                const desc = trItem?.description ?? proj.description;
+                const highlights = trItem?.highlights ?? proj.highlights;
+
+                return (
+                  <ScrollRevealItem
+                    key={proj.title}
+                    direction="up"
+                    effect="fade"
+                    distance={30}
+                  >
+                    <div className="h-full rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8 shadow-lg hover:border-[var(--color-accent)]/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                      <div className="space-y-5">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="space-y-1.5">
+                            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/20">
+                              {type}
+                            </span>
+                            <h4 className="text-xl sm:text-2xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors duration-200">
+                              {title}
+                            </h4>
+                          </div>
+
+                          {proj.githubUrl && (
+                            <a
+                              href={proj.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`${title} GitHub`}
+                              className="p-2.5 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] hover:text-white hover:bg-[var(--color-accent)] hover:border-transparent transition-all duration-200 shrink-0"
+                            >
+                              <Github className="w-5 h-5" />
+                            </a>
+                          )}
+                        </div>
+
+                        <p className="text-sm sm:text-base text-[var(--color-text-secondary)] leading-relaxed">
+                          {desc}
+                        </p>
+
+                        {/* Key Highlights */}
+                        <ul className="space-y-2.5 pt-2">
+                          {highlights.map((hl, hIdx) => (
+                            <li
+                              key={hIdx}
+                              className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--color-text-secondary)] leading-relaxed"
+                            >
+                              <CheckCircle2 className="w-4 h-4 text-[var(--color-accent-emerald)] shrink-0 mt-0.5" />
+                              <span className="flex-1">{hl}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="pt-6 mt-6 border-t border-[var(--color-border)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          {proj.stack.map((tech) => (
+                            <Badge key={tech} variant="default">
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+
+                        {proj.githubUrl && (
+                          <a
+                            href={proj.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="shrink-0"
+                          >
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              icon={<Github className="w-4 h-4" />}
+                            >
+                              <span>{t('projects.viewSource', 'Kaynak Kod')}</span>
+                              <ExternalLink className="w-3 h-3 ml-1 opacity-70" />
+                            </Button>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </ScrollRevealItem>
+                );
+              })}
+            </ScrollReveal>
+          </div>
+        )}
       </Container>
     </section>
   );

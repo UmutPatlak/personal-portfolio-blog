@@ -66,7 +66,7 @@ function getVariants(
       break;
   }
 
-  return base;
+  return base as unknown as Variants;
 }
 
 export function ScrollReveal({

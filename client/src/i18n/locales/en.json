@@ -92,6 +92,8 @@
         "description": "Full lifecycle modeling for station registration, OCPP admin commands, configuration mappings, and tenant isolation."
       }
     ],
+    "otherProjectsTitle": "Other Core Projects",
+    "otherProjectsSubtitle": "Microservices architecture, reactive streams, and production-grade web systems.",
     "items": [
       {
         "title": "OCPP Gateway Admin Panel",
@@ -103,6 +105,29 @@
           "Auth designed around JWT + in-memory token store mirrored to sessionStorage (narrower XSS surface) with centralized gateway:unauthorized event for forced logout.",
           "Modeled 70+ REST endpoints across tenant management, station registration, OCPP admin commands, configuration mappings, command history, and authentication.",
           "Added permission-gated routes, route-level error boundaries, and EN/TR i18n."
+        ]
+      },
+      {
+        "title": "GitHub Repository Monitor Service",
+        "type": "Backend Service & Distributed Systems",
+        "description": "A resilient Spring Boot service that continuously monitors designated GitHub repositories in real-time, stores analytical metadata in PostgreSQL, and provides a robust REST API for repository management.",
+        "highlights": [
+          "Concurrency & Optimistic Locking: Handled concurrent synchronization with @Version to prevent race conditions and data conflicts.",
+          "Composite Unique Constraints: Implemented database-level uniqueness across (owner, repo_name) to guarantee zero duplicate tracking.",
+          "Dynamic Querying & Pagination: Built dynamic criteria filtering (language, status) with Spring Data Pageable for optimized retrieval.",
+          "Reactive WebClient Integration: Utilized Spring WebClient for non-blocking communication with GitHub REST API and global exception handling.",
+          "Containerized with Docker: Automated local database provisioning and environment configuration with Docker Compose."
+        ]
+      },
+      {
+        "title": "Personal Portfolio & Blog Platform",
+        "type": "Solo Full-Stack Project",
+        "description": "A production-grade personal developer portfolio and content management blog platform with real-time responsive UI, bilingual support (EN/TR), dark/light theme, and dynamic CMS capabilities.",
+        "highlights": [
+          "Engineered full-stack architecture with modular NestJS backend, Drizzle ORM type-safe SQL queries, and PostgreSQL.",
+          "Multi-language internationalization (TR/EN) via react-i18next with unified translation keys and persistent user preference.",
+          "Role-based JWT authentication with Bcrypt password hashing and secure admin dashboard for managing articles and inquiries.",
+          "Interactive UI built with Framer Motion, glassmorphism design tokens, fluid responsive layouts, and rich SEO metadata."
         ]
       }
     ]

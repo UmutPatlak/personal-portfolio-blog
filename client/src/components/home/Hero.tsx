@@ -66,7 +66,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.15] mb-4 sm:mb-6 break-words"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.15] mb-4 sm:mb-6 break-words text-[var(--color-text-primary)]"
             >
               {t('hero.greeting')}{' '}
               <motion.span

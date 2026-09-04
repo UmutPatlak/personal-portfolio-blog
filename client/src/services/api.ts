@@ -1,7 +1,18 @@
 import axios from 'axios';
 
+const getBaseURL = (): string => {
+  const envUrl = import.meta.env.VITE_API_URL?.trim();
+  if (!envUrl) return '/api';
+  const cleanUrl = envUrl.replace(/\/+$/, '');
+  // If an absolute URL is provided without '/api' suffix, append '/api' to match NestJS global prefix
+  if (/^https?:\/\//i.test(cleanUrl) && !cleanUrl.endsWith('/api')) {
+    return `${cleanUrl}/api`;
+  }
+  return cleanUrl;
+};
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },

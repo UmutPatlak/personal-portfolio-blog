@@ -17,11 +17,12 @@ async function bootstrap() {
     }),
   );
 
-  // Parse CORS origins from environment variable (comma-separated)
-  const envOrigins = config
-    .get<string>('CORS_ORIGINS', '')
-    .split(',')
-    .map((o) => o.trim())
+  // Parse CORS origins from environment variables (CORS_ORIGINS comma-separated and/or FRONTEND_URL)
+  const envOrigins = [
+    ...config.get<string>('CORS_ORIGINS', '').split(','),
+    config.get<string>('FRONTEND_URL', ''),
+  ]
+    .map((o) => o.trim().replace(/\/+$/, ''))
     .filter(Boolean);
 
   const defaultOrigins = [
@@ -44,16 +45,20 @@ async function bootstrap() {
       // Allow server-to-server or non-browser tools (curl, Postman, etc.)
       if (!origin) return callback(null, true);
 
+      // Clean trailing slash from incoming origin
+      const normalizedOrigin = origin.replace(/\/+$/, '');
+
       // Check if origin matches allowed list or regex patterns (e.g. Vercel preview or subdomain)
       const isAllowed =
-        allowedOrigins.includes(origin) ||
-        /^https:\/\/.*\.umutpatlak\.com$/.test(origin) ||
-        /^https:\/\/.*\.vercel\.app$/.test(origin);
+        allowedOrigins.includes(normalizedOrigin) ||
+        /^https:\/\/.*\.umutpatlak\.com$/.test(normalizedOrigin) ||
+        /^https:\/\/.*\.vercel\.app$/.test(normalizedOrigin);
 
       if (isAllowed) {
         callback(null, true);
       } else {
-        callback(new Error(`CORS blocked for origin: ${origin}`));
+        console.warn(`[CORS] Blocked request from origin: ${origin}`);
+        callback(null, false);
       }
     },
     credentials: true,
@@ -61,9 +66,9 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });
 
-  const port = config.get<number>('PORT', 3000);
-  await app.listen(port);
-  console.log(`🚀 Server running on port ${port}`);
+  const port = Number(process.env.PORT || config.get('PORT') || 3000);
+  await app.listen(port, '0.0.0.0');
+  console.log(`🚀 Server running on port ${port} (0.0.0.0)`);
 }
 
 bootstrap();

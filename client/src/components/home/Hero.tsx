@@ -50,16 +50,37 @@ export function Hero() {
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="flex flex-col items-start min-w-0 w-full"
           >
-            {/* Status badge */}
-            <motion.div
-              initial={{ opacity: 0, x: -20, scale: 0.9 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/5 text-[var(--color-accent)] text-xs sm:text-sm font-medium mb-4 sm:mb-6"
-            >
-              <span className="w-2 h-2 rounded-full bg-[var(--color-accent-emerald)] animate-pulse" />
-              {t('hero.available')}
-            </motion.div>
+            {/* Status badges */}
+            <div className="flex flex-wrap items-center gap-2.5 mb-4 sm:mb-6">
+              <motion.div
+                initial={{ opacity: 0, x: -20, scale: 0.9 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                transition={{ delay: 0.3, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/5 text-[var(--color-accent)] text-xs sm:text-sm font-medium"
+              >
+                <span className="w-2 h-2 rounded-full bg-[var(--color-accent-emerald)] animate-pulse" />
+                {t('hero.available')}
+              </motion.div>
+
+              {/* Live badge */}
+              <motion.a
+                href="https://umutpatlak.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, x: -10, scale: 0.9 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                transition={{ delay: 0.45, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--color-accent-emerald)]/25 bg-[var(--color-accent-emerald)]/8 text-[var(--color-accent-emerald)] text-xs sm:text-sm font-medium cursor-pointer hover:bg-[var(--color-accent-emerald)]/15 hover:border-[var(--color-accent-emerald)]/40 transition-colors duration-200"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-accent-emerald)] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-accent-emerald)]" />
+                </span>
+                {t('hero.liveBadge')}
+              </motion.a>
+            </div>
 
             {/* Title / Greeting */}
             <motion.h1

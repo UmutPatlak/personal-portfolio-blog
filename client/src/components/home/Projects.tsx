@@ -8,7 +8,9 @@ import {
   ShieldCheck,
   Network,
   CheckCircle2,
+  ArrowRight,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -143,6 +145,11 @@ export function Projects() {
                     </Button>
                   </a>
                 )}
+                <Link to="/projects/ocpp-gateway" className="flex-1 sm:flex-initial inline-block">
+                  <Button variant="outline" size="md" className="w-full sm:w-auto" icon={<ArrowRight className="w-4 h-4" />}>
+                    {t('projects.viewDetails')}
+                  </Button>
+                </Link>
               </motion.div>
             </motion.div>
 

@@ -10,6 +10,7 @@
   },
   "hero": {
     "available": "Available for opportunities",
+    "liveBadge": "Live",
     "greeting": "Hi, I'm",
     "title": "Full-Stack Developer",
     "bio": "Full-stack developer with hands-on production experience contributing to a multi-tenant EV charging SaaS platform. Focused on shipping robust, end-to-end features and scalable full-stack solutions.",
@@ -74,6 +75,7 @@
     "architectureTitle": "Key Architecture Highlights",
     "viewSource": "View Source Code",
     "viewDemo": "Live Demo",
+    "viewDetails": "View Details",
     "features": [
       {
         "title": "Mock-First API Architecture",
@@ -131,6 +133,46 @@
         ]
       }
     ]
+  },
+  "projectDetail": {
+    "caseStudyBadge": "Case Study",
+    "backToHome": "Back to Projects",
+    "architectureTitle": "Architecture & Design Decisions",
+    "architectureDesc": "The OCPP Gateway Admin Panel was designed with a clear separation of concerns, type-safe contracts, and a developer experience that makes it easy to switch between mock and production APIs without changing a single line of business logic.",
+    "challengesTitle": "Challenges & Solutions",
+    "problemLabel": "Challenge",
+    "solutionLabel": "Solution",
+    "challenges": [
+      {
+        "problem": "Maintaining API contract consistency between mock and real implementations as the gateway API evolved rapidly with 70+ endpoints.",
+        "solution": "Implemented a single GatewayApi TypeScript interface that both mockApi.ts and realApi.ts must satisfy — any contract drift is caught at compile time, eliminating runtime surprises."
+      },
+      {
+        "problem": "Handling real-time station telemetry and event streaming without overloading the client or missing critical state changes.",
+        "solution": "Built a unified Server-Sent Events subscription manager that works identically in mock and real modes, with automatic reconnection and deduplication logic."
+      },
+      {
+        "problem": "Securing the admin panel against XSS attacks while maintaining a smooth user experience with persistent auth sessions.",
+        "solution": "Designed JWT auth with an in-memory token store mirrored to sessionStorage (narrower XSS surface than localStorage), plus a centralized 'gateway:unauthorized' event for forced logout across all tabs."
+      },
+      {
+        "problem": "Supporting multi-tenant isolation where operators should only see their own stations, configurations, and API keys.",
+        "solution": "Modeled tenant-scoped API routes with permission-gated frontend routes, route-level error boundaries, and server-side tenant context propagation."
+      }
+    ],
+    "highlightsTitle": "Implementation Highlights",
+    "techStackTitle": "Technology Stack",
+    "fullStackLabel": "Full Stack:",
+    "ctaTitle": "Interested in the source code?"
+  },
+  "github": {
+    "title": "GitHub Activity",
+    "subtitle": "My open-source contributions and coding activity over the past year.",
+    "contributionLabel": "Contribution Activity",
+    "viewProfile": "View Profile",
+    "less": "Less",
+    "more": "More",
+    "dataSource": "Data from GitHub contributions"
   },
   "skills": {
     "title": "Skills",

@@ -10,6 +10,7 @@
   },
   "hero": {
     "available": "Yeni fırsatlara açık",
+    "liveBadge": "Canlı",
     "greeting": "Merhaba, ben",
     "title": "Full-Stack Geliştirici",
     "bio": "Çok kiracılı (multi-tenant) elektrikli araç şarj SaaS platformunda canlı üretim ortamı deneyimine sahip full-stack geliştirici. Uçtan uca sağlam özellikler ve ölçeklenebilir full-stack çözümler geliştirmeye odaklanıyor.",
@@ -74,6 +75,7 @@
     "architectureTitle": "Önemli Mimari Vurgular",
     "viewSource": "Kaynak Kodu İncele",
     "viewDemo": "Canlı Önizleme",
+    "viewDetails": "Detayları Gör",
     "features": [
       {
         "title": "Mock-Öncelikli API Mimarisi",
@@ -131,6 +133,46 @@
         ]
       }
     ]
+  },
+  "projectDetail": {
+    "caseStudyBadge": "Vaka Çalışması",
+    "backToHome": "Projelere Dön",
+    "architectureTitle": "Mimari & Tasarım Kararları",
+    "architectureDesc": "OCPP Gateway Yönetim Paneli, sorumluluk ayrımı (separation of concerns), tip güvenli sözleşmeler ve bir satır bile iş mantığı değiştirmeden mock ile gerçek API arasında kolayca geçiş yapmaya olanak tanıyan bir geliştirici deneyimi ile tasarlandı.",
+    "challengesTitle": "Karşılaşılan Zorluklar & Çözümler",
+    "problemLabel": "Zorluk",
+    "solutionLabel": "Çözüm",
+    "challenges": [
+      {
+        "problem": "Gateway API 70'ten fazla endpoint ile hızla gelişirken, mock ve gerçek implementasyonlar arasında API sözleşme tutarlılığını sağlamak.",
+        "solution": "Hem mockApi.ts hem de realApi.ts'nin uyması gereken tek bir GatewayApi TypeScript arayüzü uygulandı — herhangi bir sözleşme sapması derleme zamanında yakalanarak çalışma zamanı sürprizleri ortadan kaldırıldı."
+      },
+      {
+        "problem": "İstemciyi aşırı yüklemeden veya kritik durum değişikliklerini kaçırmadan gerçek zamanlı istasyon telemetrisi ve olay akışını yönetmek.",
+        "solution": "Mock ve gerçek modlarda birebir aynı çalışan, otomatik yeniden bağlanma ve tekilleştirme mantığına sahip birleşik bir Server-Sent Events abonelik yöneticisi geliştirildi."
+      },
+      {
+        "problem": "Kalıcı kimlik doğrulama oturumlarıyla sorunsuz bir kullanıcı deneyimi sürdürürken yönetim panelini XSS saldırılarına karşı güvenceye almak.",
+        "solution": "sessionStorage'a yansıtılan bellek içi token deposu (localStorage'dan daha dar XSS yüzeyi) ile JWT kimlik doğrulama tasarlandı; tüm sekmelerde zorunlu çıkış için merkezi 'gateway:unauthorized' olayı eklendi."
+      },
+      {
+        "problem": "Operatörlerin yalnızca kendi istasyonlarını, konfigürasyonlarını ve API anahtarlarını görmesi gereken çok kiracılı izolasyonu desteklemek.",
+        "solution": "Yetki kontrollü ön yüz rotaları, rota düzeyinde hata sınırları ve sunucu tarafı kiracı bağlamı yayılımı ile kiracı kapsamlı API rotaları modellendi."
+      }
+    ],
+    "highlightsTitle": "Uygulama Detayları",
+    "techStackTitle": "Teknoloji Stack'i",
+    "fullStackLabel": "Full Stack:",
+    "ctaTitle": "Kaynak kodu incelemek ister misiniz?"
+  },
+  "github": {
+    "title": "GitHub Aktivitesi",
+    "subtitle": "Açık kaynak katkılarım ve geçtiğimiz yıla ait kodlama aktivitem.",
+    "contributionLabel": "Katkı Aktivitesi",
+    "viewProfile": "Profili Görüntüle",
+    "less": "Az",
+    "more": "Çok",
+    "dataSource": "GitHub katkı verileri"
   },
   "skills": {
     "title": "Yetenekler",

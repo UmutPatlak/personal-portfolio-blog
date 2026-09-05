@@ -4,6 +4,7 @@ import { About } from '@/components/home/About';
 import { Experience } from '@/components/home/Experience';
 import { Projects } from '@/components/home/Projects';
 import { Skills } from '@/components/home/Skills';
+import { GitHubActivity } from '@/components/home/GitHubActivity';
 import { Education } from '@/components/home/Education';
 import { Contact } from '@/components/home/Contact';
 
@@ -19,6 +20,7 @@ export function HomePage() {
       <Experience />
       <Projects />
       <Skills />
+      <GitHubActivity />
       <Education />
       <Contact />
     </div>

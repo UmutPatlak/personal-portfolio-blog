@@ -14,7 +14,7 @@ import { DATABASE_TOKEN } from '../db/database.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET', 'umut_portfolio_jwt_dev_secret_key_2026_change_in_production'),
+        secret: config.getOrThrow<string>('JWT_SECRET'),
         signOptions: { expiresIn: config.get<string>('JWT_EXPIRATION', '7d') as any },
       }),
     }),

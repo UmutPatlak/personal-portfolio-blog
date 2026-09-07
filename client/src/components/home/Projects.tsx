@@ -12,24 +12,52 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ScrollReveal, ScrollRevealItem } from '@/components/ui/ScrollReveal';
-import { projects } from '@/data/cv-data';
+import { SkeletonSection } from '@/components/ui/SkeletonSection';
+import { projects as fallbackProjects } from '@/data/cv-data';
+import { projectService } from '@/services/projectService';
 
 const featureIcons = [Cpu, Radio, ShieldCheck, Network];
 
 export function Projects() {
   const { t } = useTranslation();
 
+  const { data: apiProjects, isLoading } = useQuery({
+    queryKey: ['projects'],
+    queryFn: () => projectService.getProjects(),
+  });
+
+  const activeProjects =
+    apiProjects && apiProjects.length > 0
+      ? apiProjects.map((p) => ({
+          title: p.title,
+          type: p.type || 'Solo Project',
+          stack: p.technologies || [],
+          description: p.description,
+          highlights:
+            p.challenges && p.challenges.length > 0
+              ? p.challenges
+              : [],
+          githubUrl: p.githubUrl || undefined,
+          demoUrl: p.demoUrl || undefined,
+        }))
+      : fallbackProjects;
+
+  if (isLoading) {
+    return <SkeletonSection />;
+  }
+
   const rawItems = t('projects.items', { returnObjects: true });
   const translatedList = Array.isArray(rawItems)
     ? (rawItems as Array<{ title?: string; type?: string; description?: string; highlights?: string[] }>)
     : [];
-  const primaryProject = projects[0];
-  const otherProjects = projects.slice(1);
+  const primaryProject = activeProjects[0];
+  const otherProjects = activeProjects.slice(1);
 
   const projectTitle = translatedList[0]?.title ?? primaryProject?.title ?? 'OCPP Gateway Admin Panel';
   const projectType = translatedList[0]?.type ?? primaryProject?.type ?? 'Solo Full-Stack Project';

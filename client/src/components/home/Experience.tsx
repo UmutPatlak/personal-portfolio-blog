@@ -1,15 +1,34 @@
 import { motion } from 'framer-motion';
 import { Briefcase, Calendar, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { SkeletonSection } from '@/components/ui/SkeletonSection';
+import { experienceService } from '@/services/experienceService';
 import { experiences as fallbackExperiences, type ExperienceItem } from '@/data/cv-data';
 
 export function Experience() {
   const { t } = useTranslation();
-  const rawItems = t('experience.items', { returnObjects: true });
-  const experienceItems: ExperienceItem[] = Array.isArray(rawItems) ? rawItems : fallbackExperiences;
+  const { data, isLoading } = useQuery({
+    queryKey: ['experiences'],
+    queryFn: experienceService.getExperiences,
+  });
+
+  const rawList = data && data.length > 0 ? data : fallbackExperiences;
+  const experienceItems: ExperienceItem[] = rawList.map((exp: any) => ({
+    company: exp.company,
+    role: exp.role || exp.position,
+    period: exp.period || `${exp.startDate} – ${exp.endDate || 'Present'}`,
+    location: exp.location || '',
+    description: exp.description || '',
+    achievements: exp.achievements || [],
+  }));
+
+  if (isLoading) {
+    return <SkeletonSection />;
+  }
 
   return (
     <section id="experience" className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full">

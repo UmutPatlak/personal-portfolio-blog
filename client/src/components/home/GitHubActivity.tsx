@@ -82,15 +82,19 @@ export function GitHubActivity() {
               whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="w-full overflow-x-auto rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 p-4 sm:p-6"
+              className="w-full overflow-x-auto rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 p-4 sm:p-6 min-h-[140px]"
             >
               <img
                 src={chartUrl}
                 alt={`${GITHUB_USERNAME}'s GitHub contribution graph`}
+                width="840"
+                height="115"
+                decoding="async"
                 className="w-full min-w-[680px] h-auto"
                 loading="lazy"
                 style={{
                   filter: theme === 'dark' ? 'brightness(1.1)' : 'none',
+                  aspectRatio: '840 / 115',
                 }}
               />
             </motion.div>

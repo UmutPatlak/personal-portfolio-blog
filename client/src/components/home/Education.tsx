@@ -1,19 +1,37 @@
 import { motion } from 'framer-motion';
 import { GraduationCap, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { education as fallbackEducation, languages as fallbackLanguages, type EducationItem, type LanguageItem } from '@/data/cv-data';
+import { SkeletonSection } from '@/components/ui/SkeletonSection';
+import { educationService } from '@/services/educationService';
+import { education as fallbackEducation, languages as fallbackLanguages } from '@/data/cv-data';
 
 export function Education() {
   const { t } = useTranslation();
+  const { data, isLoading } = useQuery({
+    queryKey: ['education'],
+    queryFn: educationService.getEducation,
+  });
 
-  const rawEducation = t('education.items', { returnObjects: true });
-  const eduList: EducationItem[] = Array.isArray(rawEducation) ? rawEducation : fallbackEducation;
+  const rawEdu = data?.education && data.education.length > 0 ? data.education : fallbackEducation;
+  const eduList = rawEdu.map((e: any) => ({
+    institution: e.institution || e.school,
+    degree: e.degree,
+    field: e.field || e.department,
+  }));
 
-  const rawLanguages = t('education.languages', { returnObjects: true });
-  const langList: LanguageItem[] = Array.isArray(rawLanguages) ? rawLanguages : fallbackLanguages;
+  const rawLang = data?.languages && data.languages.length > 0 ? data.languages : fallbackLanguages;
+  const langList = rawLang.map((l: any) => ({
+    language: l.language || l.name,
+    proficiency: l.proficiency || l.level,
+  }));
+
+  if (isLoading) {
+    return <SkeletonSection />;
+  }
 
   return (
     <section id="education" className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full">

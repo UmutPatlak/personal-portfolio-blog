@@ -10,10 +10,13 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ScrollReveal, ScrollRevealItem } from '@/components/ui/ScrollReveal';
-import { skillCategories } from '@/data/cv-data';
+import { SkeletonSection } from '@/components/ui/SkeletonSection';
+import { skillCategories as fallbackSkillCategories } from '@/data/cv-data';
+import { skillService } from '@/services/skillService';
 
 const iconMap: Record<string, LucideIcon> = {
   Code2,
@@ -27,6 +30,24 @@ const iconMap: Record<string, LucideIcon> = {
 
 export function Skills() {
   const { t } = useTranslation();
+
+  const { data: apiSkills, isLoading } = useQuery({
+    queryKey: ['skills'],
+    queryFn: () => skillService.getSkills(),
+  });
+
+  const activeCategories =
+    apiSkills && apiSkills.length > 0
+      ? apiSkills.map((c) => ({
+          name: c.name,
+          icon: c.icon || 'Code2',
+          skills: (c.skills || []).map((s) => s.name),
+        }))
+      : fallbackSkillCategories;
+
+  if (isLoading) {
+    return <SkeletonSection />;
+  }
 
   return (
     <section id="skills" className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full">
@@ -42,7 +63,7 @@ export function Skills() {
           staggerDelay={0.1}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5 md:gap-6"
         >
-          {skillCategories.map((category, idx) => {
+          {activeCategories.map((category, idx) => {
             const Icon = iconMap[category.icon] ?? Code2;
             const categoryName = t(`skills.categories.${category.name}`, { defaultValue: category.name });
             // Alternate directions for visual variety

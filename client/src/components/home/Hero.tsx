@@ -2,13 +2,24 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Download, Github, Linkedin, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
-import { personalInfo } from '@/data/cv-data';
+import { personalInfo as fallbackPersonalInfo } from '@/data/cv-data';
+import { personalInfoService } from '@/services/personalInfoService';
 
 export function Hero() {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: () => personalInfoService.getPersonalInfo(),
+  });
+
+  const cvHref = profile?.cvUrl || `/${fallbackPersonalInfo.cvFileName}`;
+  const githubHref = profile?.githubUrl || fallbackPersonalInfo.github;
+  const linkedinHref = profile?.linkedinUrl || fallbackPersonalInfo.linkedin;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -96,7 +107,7 @@ export function Hero() {
                 transition={{ delay: 0.5, duration: 0.6, type: 'spring', stiffness: 120 }}
                 className="gradient-text inline-block"
               >
-                {personalInfo.name}
+                {profile?.name || fallbackPersonalInfo.name}
               </motion.span>
             </motion.h1>
 
@@ -135,13 +146,13 @@ export function Hero() {
               transition={{ delay: 0.65, duration: 0.6 }}
               className="flex flex-wrap items-center gap-3 w-full"
             >
-              <a href={`/${personalInfo.cvFileName}`} download className="inline-flex">
+              <a href={cvHref} download className="inline-flex">
                 <Button variant="primary" size="lg" icon={<Download className="w-4 h-4" />}>
                   {t('hero.downloadCv')}
                 </Button>
               </a>
               <a
-                href={personalInfo.github}
+                href={githubHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex"
@@ -151,7 +162,7 @@ export function Hero() {
                 </Button>
               </a>
               <a
-                href={personalInfo.linkedin}
+                href={linkedinHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex"

@@ -243,6 +243,33 @@
     "builtWith": "Geliştirildi:",
     "techStack": "React & NestJS kullanılarak"
   },
+  "notFound": {
+    "title": "404 - Sayfa Bulunamadı",
+    "terminalTitle": "umut.dev — zsh 404",
+    "badge": "HTTP 404 // NOT FOUND",
+    "subtitle": "Aradığınız sayfa silinmiş, yolu değiştirilmiş veya dijital evrenin derinliklerinde kaybolmuş olabilir.",
+    "diagnostic": "SİSTEM HATA RAPORU",
+    "errorText": "HATA: İstenen rota bu sunucuda bulunamadı.",
+    "inputPlaceholder": "Komut yazın (örn: help, home, blog)...",
+    "helpTip": "İpucu: Komut satırına 'help' yazabilir veya aşağıdaki hızlı komutlara tıklayabilirsiniz.",
+    "quickCommands": "Hızlı Komutlar",
+    "backHome": "Ana Sayfaya Dön",
+    "viewBlog": "Blog'a Git",
+    "goBack": "Geri Dön",
+    "commands": {
+      "help": "Kullanılabilir tüm komutları listeler",
+      "home": "Ana sayfaya yönlendirir",
+      "blog": "Blog sayfasına yönlendirir",
+      "projects": "Öne çıkan projeye yönlendirir",
+      "contact": "İletişim bölümüne yönlendirir",
+      "whoami": "Mevcut kullanıcı kimliğini görüntüler",
+      "ls": "Dizin ve sayfaları listeler",
+      "pwd": "Mevcut kayıp dizini gösterir",
+      "clear": "Terminal ekranını temizler",
+      "matrix": "Matrix dijital yağmur modunu başlatır",
+      "date": "Sistem tarih ve saatini gösterir"
+    }
+  },
   "language": {
     "toggle": "Dili değiştir",
     "en": "English",

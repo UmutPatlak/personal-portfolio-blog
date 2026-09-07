@@ -243,6 +243,33 @@
     "builtWith": "Built with",
     "techStack": "using React & NestJS"
   },
+  "notFound": {
+    "title": "404 - Page Not Found",
+    "terminalTitle": "umut.dev — zsh 404",
+    "badge": "HTTP 404 // NOT FOUND",
+    "subtitle": "The page you are looking for might have been removed, had its name changed, or vanished into cyberspace.",
+    "diagnostic": "SYSTEM DIAGNOSTIC REPORT",
+    "errorText": "ERROR: The requested route could not be found on this server.",
+    "inputPlaceholder": "Type a command (e.g. help, home, blog)...",
+    "helpTip": "Tip: Type 'help' into the terminal or click the quick action command pills below.",
+    "quickCommands": "Quick Commands",
+    "backHome": "Return Home",
+    "viewBlog": "Browse Blog",
+    "goBack": "Go Back",
+    "commands": {
+      "help": "List all available interactive commands",
+      "home": "Navigate back to the home page",
+      "blog": "Explore technical blog posts",
+      "projects": "View the featured OCPP project",
+      "contact": "Jump to contact section",
+      "whoami": "Display current guest identity",
+      "ls": "List reachable directories & pages",
+      "pwd": "Show current void path",
+      "clear": "Clear the terminal screen",
+      "matrix": "Toggle matrix digital rain mode",
+      "date": "Print system timestamp"
+    }
+  },
   "language": {
     "toggle": "Switch language",
     "en": "English",

@@ -24,24 +24,33 @@ export function Navbar() {
   ];
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
 
-      if (location.pathname === '/') {
-        const sections = ['about', 'experience', 'projects', 'skills', 'contact'];
-        const scrollPosition = window.scrollY + 200;
+          if (location.pathname === '/') {
+            const sections = ['about', 'experience', 'projects', 'skills', 'contact'];
+            const scrollPosition = window.scrollY + 200;
 
-        for (let i = sections.length - 1; i >= 0; i--) {
-          const sectionId = sections[i]!;
-          const el = document.getElementById(sectionId);
-          if (el && el.offsetTop <= scrollPosition) {
-            setActiveSection(sectionId);
-            return;
+            for (let i = sections.length - 1; i >= 0; i--) {
+              const sectionId = sections[i]!;
+              const el = document.getElementById(sectionId);
+              if (el && el.offsetTop <= scrollPosition) {
+                setActiveSection(sectionId);
+                ticking = false;
+                return;
+              }
+            }
+            if (window.scrollY < 200) {
+              setActiveSection('');
+            }
           }
-        }
-        if (window.scrollY < 200) {
-          setActiveSection('');
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -77,6 +86,7 @@ export function Navbar() {
 
   return (
     <nav
+      aria-label="Main Navigation"
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled || isMobileOpen
@@ -118,19 +128,21 @@ export function Navbar() {
               );
             })}
             <div className="flex items-center gap-1.5 ml-2">
-              <LanguageToggle />
-              <ThemeToggle />
+              <LanguageToggle id="language-toggle-desktop" />
+              <ThemeToggle id="theme-toggle-desktop" />
             </div>
           </div>
 
           {/* Mobile Controls */}
           <div className="flex items-center gap-2 md:hidden">
-            <LanguageToggle />
-            <ThemeToggle />
+            <LanguageToggle id="language-toggle-mobile" />
+            <ThemeToggle id="theme-toggle-mobile" />
             <button
               onClick={() => setIsMobileOpen(!isMobileOpen)}
               className="p-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
-              aria-label="Toggle menu"
+              aria-label={isMobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMobileOpen}
+              aria-controls="mobile-nav-menu"
               id="mobile-menu-toggle"
             >
               {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -140,6 +152,9 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         <div
+          id="mobile-nav-menu"
+          role="region"
+          aria-label="Mobile Navigation"
           className={cn(
             'md:hidden overflow-hidden transition-all duration-300 ease-in-out',
             isMobileOpen ? 'max-h-96 opacity-100 pb-4 pt-2' : 'max-h-0 opacity-0'

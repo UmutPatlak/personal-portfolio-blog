@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { Background3D } from '@/components/ui/Background3D';
+
+const Background3D = lazy(() =>
+  import('@/components/ui/Background3D').then((m) => ({ default: m.Background3D }))
+);
 
 export function Layout() {
   const { pathname, hash } = useLocation();
@@ -23,7 +26,9 @@ export function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col noise-bg w-full overflow-x-hidden relative">
-      <Background3D />
+      <Suspense fallback={null}>
+        <Background3D />
+      </Suspense>
       <Navbar />
       <main className="flex-1 pt-16 w-full overflow-x-hidden relative z-10">
         <Outlet />

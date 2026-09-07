@@ -4,9 +4,12 @@ interface SectionHeadingProps {
   title: string;
   subtitle?: string;
   align?: 'left' | 'center';
+  as?: 'h1' | 'h2';
 }
 
-export function SectionHeading({ title, subtitle, align = 'left' }: SectionHeadingProps) {
+export function SectionHeading({ title, subtitle, align = 'left', as = 'h2' }: SectionHeadingProps) {
+  const HeadingTag = as;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -15,10 +18,10 @@ export function SectionHeading({ title, subtitle, align = 'left' }: SectionHeadi
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={`mb-10 sm:mb-14 lg:mb-16 ${align === 'center' ? 'text-center' : 'text-left'}`}
     >
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--color-text-primary)] mb-3 sm:mb-4 break-words">
+      <HeadingTag className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--color-text-primary)] mb-3 sm:mb-4 break-words">
         {title}
         <span className="gradient-text">.</span>
-      </h2>
+      </HeadingTag>
       {subtitle && (
         <motion.p
           initial={{ opacity: 0, y: 10 }}

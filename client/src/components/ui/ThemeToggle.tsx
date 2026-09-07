@@ -1,7 +1,11 @@
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  id?: string;
+}
+
+export function ThemeToggle({ id }: ThemeToggleProps) {
   const { isDark, toggleTheme } = useTheme();
 
   return (
@@ -9,7 +13,7 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       className="relative p-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-hover)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      id="theme-toggle"
+      id={id}
     >
       <div className="relative w-5 h-5">
         <Sun

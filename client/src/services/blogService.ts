@@ -7,6 +7,7 @@ interface GetPostsParams {
   limit?: number;
   tag?: string;
   search?: string;
+  status?: string;
 }
 
 export const blogService = {
@@ -47,6 +48,16 @@ export const blogService = {
     };
   },
 
+  async getAdminPosts(params: GetPostsParams = {}): Promise<PostListResponse> {
+    const { data } = await api.get<PostListResponse>('/posts/admin/all', { params });
+    return data;
+  },
+
+  async getPostById(id: number): Promise<Post> {
+    const { data } = await api.get<Post>(`/posts/admin/${id}`);
+    return data;
+  },
+
   async getPostBySlug(slug: string): Promise<Post> {
     try {
       const { data } = await api.get<Post>(`/posts/${slug}`);
@@ -72,8 +83,12 @@ export const blogService = {
     return data;
   },
 
+  async toggleStatus(id: number): Promise<Post> {
+    const { data } = await api.patch<Post>(`/posts/${id}/toggle-status`);
+    return data;
+  },
+
   async deletePost(id: number): Promise<void> {
     await api.delete(`/posts/${id}`);
   },
 };
-

@@ -7,6 +7,11 @@ export const projectService = {
     return data;
   },
 
+  async getProjectById(id: number): Promise<Project> {
+    const { data } = await api.get<Project>(`/projects/${id}`);
+    return data;
+  },
+
   async createProject(project: Partial<Project>): Promise<Project> {
     const { data } = await api.post<Project>('/projects', project);
     return data;
@@ -19,5 +24,9 @@ export const projectService = {
 
   async deleteProject(id: number): Promise<void> {
     await api.delete(`/projects/${id}`);
+  },
+
+  async reorderProjects(items: { id: number; order: number }[]): Promise<void> {
+    await api.patch('/projects/reorder', { items });
   },
 };

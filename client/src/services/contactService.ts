@@ -15,4 +15,16 @@ export const contactService = {
   async markAsRead(id: number): Promise<void> {
     await api.patch(`/contact/${id}/read`);
   },
+
+  async markAsUnread(id: number): Promise<void> {
+    await api.patch(`/contact/${id}/unread`);
+  },
+
+  async toggleRead(id: number): Promise<void> {
+    await api.patch(`/contact/${id}/toggle-read`);
+  },
+
+  async deleteMessage(id: number): Promise<void> {
+    await api.delete(`/contact/${id}`);
+  },
 };

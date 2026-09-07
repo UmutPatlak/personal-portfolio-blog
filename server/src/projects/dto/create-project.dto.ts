@@ -14,6 +14,11 @@ export class CreateProjectDto {
   @MaxLength(255)
   title!: string;
 
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  type?: string;
+
   @IsString()
   @IsNotEmpty()
   description!: string;
@@ -34,9 +39,25 @@ export class CreateProjectDto {
   @IsString()
   imageUrl?: string;
 
-  @IsBoolean()
-  featured!: boolean;
+  @IsOptional()
+  @IsString()
+  architecture?: string;
 
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  challenges?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  solutions?: string[];
+
+  @IsOptional()
+  @IsBoolean()
+  featured?: boolean;
+
+  @IsOptional()
   @IsNumber()
-  order!: number;
+  order?: number;
 }

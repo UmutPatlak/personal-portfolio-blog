@@ -40,4 +40,51 @@ export class ContactService {
 
     return msg;
   }
+
+  async markAsUnread(id: number) {
+    const [msg] = await this.db
+      .update(messages)
+      .set({ isRead: false })
+      .where(eq(messages.id, id))
+      .returning();
+
+    if (!msg) {
+      throw new NotFoundException('Message not found');
+    }
+
+    return msg;
+  }
+
+  async toggleRead(id: number) {
+    const [existing] = await this.db
+      .select()
+      .from(messages)
+      .where(eq(messages.id, id))
+      .limit(1);
+
+    if (!existing) {
+      throw new NotFoundException('Message not found');
+    }
+
+    const [msg] = await this.db
+      .update(messages)
+      .set({ isRead: !existing.isRead })
+      .where(eq(messages.id, id))
+      .returning();
+
+    return msg;
+  }
+
+  async delete(id: number) {
+    const [msg] = await this.db
+      .delete(messages)
+      .where(eq(messages.id, id))
+      .returning();
+
+    if (!msg) {
+      throw new NotFoundException('Message not found');
+    }
+
+    return { message: 'Message deleted successfully' };
+  }
 }

@@ -13,7 +13,21 @@ export class ProjectsService {
     return this.db
       .select()
       .from(projects)
-      .orderBy(asc(projects.order));
+      .orderBy(asc(projects.order), asc(projects.id));
+  }
+
+  async findOne(id: number) {
+    const [project] = await this.db
+      .select()
+      .from(projects)
+      .where(eq(projects.id, id))
+      .limit(1);
+
+    if (!project) {
+      throw new NotFoundException('Project not found');
+    }
+
+    return project;
   }
 
   async create(dto: CreateProjectDto) {
@@ -21,13 +35,17 @@ export class ProjectsService {
       .insert(projects)
       .values({
         title: dto.title,
+        type: dto.type ?? null,
         description: dto.description,
-        technologies: dto.technologies,
+        technologies: dto.technologies || [],
         githubUrl: dto.githubUrl ?? null,
         demoUrl: dto.demoUrl ?? null,
         imageUrl: dto.imageUrl ?? null,
-        featured: dto.featured,
-        order: dto.order,
+        architecture: dto.architecture ?? null,
+        challenges: dto.challenges ?? null,
+        solutions: dto.solutions ?? null,
+        featured: dto.featured ?? false,
+        order: dto.order ?? 0,
       })
       .returning();
 
@@ -59,5 +77,15 @@ export class ProjectsService {
     }
 
     return { message: 'Project deleted successfully' };
+  }
+
+  async reorder(items: { id: number; order: number }[]) {
+    for (const item of items) {
+      await this.db
+        .update(projects)
+        .set({ order: item.order })
+        .where(eq(projects.id, item.id));
+    }
+    return { message: 'Projects reordered successfully' };
   }
 }

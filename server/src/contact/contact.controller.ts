@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Patch,
+  Delete,
   Body,
   Param,
   UseGuards,
@@ -33,5 +34,23 @@ export class ContactController {
   @Patch(':id/read')
   async markAsRead(@Param('id', ParseIntPipe) id: number) {
     return this.contactService.markAsRead(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id/unread')
+  async markAsUnread(@Param('id', ParseIntPipe) id: number) {
+    return this.contactService.markAsUnread(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id/toggle-read')
+  async toggleRead(@Param('id', ParseIntPipe) id: number) {
+    return this.contactService.toggleRead(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    return this.contactService.delete(id);
   }
 }

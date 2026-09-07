@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://umut.dev/sitemap.xml
+Sitemap: https://umutpatlak.com/sitemap.xml

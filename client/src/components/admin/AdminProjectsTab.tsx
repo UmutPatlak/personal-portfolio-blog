@@ -200,8 +200,9 @@ export function AdminProjectsTab() {
       setIsUploadingImage(true);
       const res = await uploadService.uploadImage(file);
       setFormData((prev) => ({ ...prev, imageUrl: res.url }));
+      toast.success('Görsel başarıyla yüklendi ✅');
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Görsel yüklenemedi');
+      toast.error(err.response?.data?.message || 'Görsel yüklenemedi ❌');
     } finally {
       setIsUploadingImage(false);
       if (fileInputRef.current) fileInputRef.current.value = '';

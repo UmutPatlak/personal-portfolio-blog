@@ -12,6 +12,11 @@ export function createDatabase(connectionString: string, ssl?: boolean) {
     connectionString,
     ssl: isSsl ? { rejectUnauthorized: false } : undefined,
   });
+
+  pool.on('error', (err) => {
+    console.error('Unexpected error on idle database client', err);
+  });
+
   return drizzle(pool, { schema });
 }
 

@@ -5,6 +5,7 @@ import * as express from 'express';
 import { join } from 'path';
 import * as fs from 'fs';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +20,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api', {
     exclude: ['sitemap.xml', 'health'],
   });
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({

@@ -13,6 +13,7 @@ import { uploadService } from '@/services/uploadService';
 import type { PersonalInfo } from '@/types/personalInfo';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import toast from 'react-hot-toast';
 
 export function AdminProfileTab() {
   const queryClient = useQueryClient();
@@ -80,8 +81,9 @@ export function AdminProfileTab() {
       await personalInfoService.updatePersonalInfo({ profileImage: res.url });
       void queryClient.invalidateQueries({ queryKey: ['admin-profile'] });
       void queryClient.invalidateQueries({ queryKey: ['profile'] });
+      toast.success('Fotoğraf başarıyla yüklendi ✅');
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Fotoğraf yüklenemedi');
+      toast.error(err.response?.data?.message || 'Fotoğraf yüklenemedi ❌');
     } finally {
       setIsUploadingPhoto(false);
       if (photoInputRef.current) photoInputRef.current.value = '';
@@ -99,8 +101,9 @@ export function AdminProfileTab() {
       await personalInfoService.updatePersonalInfo({ cvUrl: res.url });
       void queryClient.invalidateQueries({ queryKey: ['admin-profile'] });
       void queryClient.invalidateQueries({ queryKey: ['profile'] });
+      toast.success('CV belgesi başarıyla yüklendi ✅');
     } catch (err: any) {
-      alert(err.response?.data?.message || 'CV belgesi yüklenemedi');
+      toast.error(err.response?.data?.message || 'CV belgesi yüklenemedi ❌');
     } finally {
       setIsUploadingCv(false);
       if (cvInputRef.current) cvInputRef.current.value = '';

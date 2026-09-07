@@ -14,8 +14,9 @@ import { personalInfo } from '@/data/cv-data';
 type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 
 export function Contact() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [status, setStatus] = useState<FormStatus>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,14 +27,24 @@ export function Contact() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus('sending');
+    setErrorMessage(null);
     try {
       await contactService.sendMessage(formData);
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
-    } catch {
+    } catch (err: any) {
+      if (err?.response?.status === 429) {
+        setErrorMessage(
+          i18n.language === 'tr'
+            ? 'Çok fazla istek gönderildi. Lütfen bir süre bekleyip tekrar deneyin.'
+            : 'Too many requests. Please wait a moment before trying again.'
+        );
+      } else {
+        setErrorMessage(null);
+      }
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 5000);
+      setTimeout(() => setStatus('idle'), 6000);
     }
   };
 
@@ -192,7 +203,7 @@ export function Contact() {
                   className="flex items-center gap-2 text-xs sm:text-sm text-red-400 break-words"
                 >
                   <AlertCircle className="w-4 h-4 shrink-0" />
-                  <span>{t('contact.error')}</span>
+                  <span>{errorMessage || t('contact.error')}</span>
                 </motion.div>
               )}
             </motion.form>

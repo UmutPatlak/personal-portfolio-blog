@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { blogService } from '@/services/blogService';
 import { uploadService } from '@/services/uploadService';
+import toast from 'react-hot-toast';
 
 export function AdminPostEditorPage() {
   const { id } = useParams<{ id: string }>();
@@ -82,8 +83,9 @@ export function AdminPostEditorPage() {
       setIsUploadingImage(true);
       const res = await uploadService.uploadImage(file);
       setForm((prev) => ({ ...prev, coverImage: res.url }));
+      toast.success('Görsel başarıyla yüklendi ✅');
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Görsel yüklenemedi');
+      toast.error(err.response?.data?.message || 'Görsel yüklenemedi ❌');
     } finally {
       setIsUploadingImage(false);
       if (fileInputRef.current) fileInputRef.current.value = '';

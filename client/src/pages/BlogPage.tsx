@@ -33,6 +33,7 @@ export function BlogPage() {
         title={t('blog.title')}
         description="Articles, architectural notes, and tutorials on Full-Stack Web Development, React, NestJS, TypeScript, Spring Boot, and cloud architecture by Umut Patlak."
         url="/blog"
+        image="/og-blog.png"
         keywords={[
           'Web Development Blog',
           'React Tutorials',
@@ -44,6 +45,7 @@ export function BlogPage() {
       />
       <Container>
         <SectionHeading
+          as="h1"
           title={t('blog.title')}
           subtitle={t('blog.subtitle')}
         />
@@ -54,6 +56,7 @@ export function BlogPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-muted)]" />
             <input
               type="text"
+              aria-label={t('blog.searchPlaceholder')}
               placeholder={t('blog.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

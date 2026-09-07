@@ -1,8 +1,8 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Save, Eye } from 'lucide-react';
+import { ArrowLeft, Save, Eye, Upload } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -12,12 +12,15 @@ import { Container } from '@/components/ui/Container';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { blogService } from '@/services/blogService';
+import { uploadService } from '@/services/uploadService';
 
 export function AdminPostEditorPage() {
   const { id } = useParams<{ id: string }>();
   const isEditing = !!id;
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const [form, setForm] = useState({
     title: '',
@@ -29,41 +32,80 @@ export function AdminPostEditorPage() {
   });
 
   // Load existing post for editing
-  useQuery({
+  const { data: existingPost, isLoading: isLoadingPost } = useQuery({
     queryKey: ['admin-post', id],
     queryFn: async () => {
-      // For editing, we need to fetch by ID — we'll use slug as workaround
-      // In real app, the backend would have a GET by ID endpoint
-      return null;
+      if (!id) return null;
+      return blogService.getPostById(parseInt(id, 10));
     },
     enabled: isEditing,
   });
 
-  const createMutation = useMutation({
-    mutationFn: () =>
-      blogService.createPost({
+  useEffect(() => {
+    if (existingPost) {
+      setForm({
+        title: existingPost.title || '',
+        summary: existingPost.summary || '',
+        content: existingPost.content || '',
+        tags: (existingPost.tags || []).join(', '),
+        status: existingPost.status || 'draft',
+        coverImage: existingPost.coverImage || '',
+      });
+    }
+  }, [existingPost]);
+
+  const saveMutation = useMutation({
+    mutationFn: async () => {
+      const payload = {
         title: form.title,
         summary: form.summary,
         content: form.content,
         tags: form.tags.split(',').map((t) => t.trim()).filter(Boolean),
         status: form.status,
         coverImage: form.coverImage || null,
-      }),
+      };
+
+      if (isEditing && id) {
+        return blogService.updatePost(parseInt(id, 10), payload);
+      } else {
+        return blogService.createPost(payload);
+      }
+    },
     onSuccess: () => navigate('/admin/dashboard'),
   });
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploadingImage(true);
+      const res = await uploadService.uploadImage(file);
+      setForm((prev) => ({ ...prev, coverImage: res.url }));
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Görsel yüklenemedi');
+    } finally {
+      setIsUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    createMutation.mutate();
+    saveMutation.mutate();
   };
 
   const updateField = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  if (isEditing && isLoadingPost) {
+    return <div className="py-24 text-center text-[var(--color-text-tertiary)]">Yazı yükleniyor...</div>;
+  }
+
   return (
     <section className="py-12 sm:py-16 md:py-24">
-      <SEO title={isEditing ? 'Edit Post' : 'New Post'} noindex={true} />
+      <SEO title={isEditing ? 'Yazıyı Düzenle' : 'Yeni Yazı'} noindex={true} />
       <Container className="max-w-4xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -72,7 +114,7 @@ export function AdminPostEditorPage() {
             className="inline-flex items-center gap-1.5 text-sm text-[var(--color-text-tertiary)] hover:text-[var(--color-accent)] transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to dashboard
+            Panoya Dön
           </button>
           <Button
             variant="ghost"
@@ -80,7 +122,7 @@ export function AdminPostEditorPage() {
             onClick={() => setShowPreview(!showPreview)}
             icon={<Eye className="w-4 h-4" />}
           >
-            {showPreview ? 'Edit' : 'Preview'}
+            {showPreview ? 'Düzenleme Modu' : 'Önizleme'}
           </Button>
         </div>
 
@@ -89,16 +131,23 @@ export function AdminPostEditorPage() {
           animate={{ opacity: 1 }}
           className="text-3xl font-bold text-[var(--color-text-primary)] mb-8"
         >
-          {isEditing ? 'Edit Post' : 'New Post'}
+          {isEditing ? 'Yazıyı Düzenle' : 'Yeni Blog Yazısı'}
         </motion.h1>
 
         {showPreview ? (
           /* Preview Mode */
           <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8">
             <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4">
-              {form.title || 'Untitled'}
+              {form.title || 'Başlıksız'}
             </h2>
             <p className="text-[var(--color-text-tertiary)] mb-6">{form.summary}</p>
+            {form.coverImage && (
+              <img
+                src={form.coverImage}
+                alt="Cover"
+                className="w-full h-64 object-cover rounded-xl mb-6"
+              />
+            )}
             <article className="prose-custom text-[var(--color-text-secondary)]">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
@@ -126,7 +175,7 @@ export function AdminPostEditorPage() {
                   },
                 }}
               >
-                {form.content || '*Start writing to see preview...*'}
+                {form.content || '*Önizlemeyi görmek için içerik yazmaya başlayın...*'}
               </ReactMarkdown>
             </article>
           </div>
@@ -135,8 +184,8 @@ export function AdminPostEditorPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <Input
               id="post-title"
-              label="Title"
-              placeholder="My awesome blog post"
+              label="Başlık *"
+              placeholder="Örn: Microservices with NestJS and Drizzle"
               value={form.title}
               onChange={(e) => updateField('title', e.target.value)}
               required
@@ -144,25 +193,50 @@ export function AdminPostEditorPage() {
 
             <Input
               id="post-summary"
-              label="Summary"
-              placeholder="A brief description of your post"
+              label="Özet *"
+              placeholder="Yazı hakkında kısa bir özet..."
               value={form.summary}
               onChange={(e) => updateField('summary', e.target.value)}
               required
             />
 
-            <Input
-              id="post-cover"
-              label="Cover Image URL (optional)"
-              placeholder="https://..."
-              value={form.coverImage}
-              onChange={(e) => updateField('coverImage', e.target.value)}
-            />
+            {/* Cover image field & upload button */}
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-[var(--color-text-secondary)]">
+                Kapak Görseli
+              </label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="text"
+                  placeholder="https://... veya görsel yükleyin"
+                  value={form.coverImage}
+                  onChange={(e) => updateField('coverImage', e.target.value)}
+                  className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)]"
+                />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploadingImage}
+                  icon={<Upload className="w-4 h-4" />}
+                >
+                  {isUploadingImage ? 'Yükleniyor...' : 'Görsel Seç'}
+                </Button>
+              </div>
+            </div>
 
             <Input
               id="post-tags"
-              label="Tags (comma-separated)"
-              placeholder="react, typescript, tutorial"
+              label="Etiketler (virgülle ayırın)"
+              placeholder="react, nestjs, typescript, tutorial"
               value={form.tags}
               onChange={(e) => updateField('tags', e.target.value)}
             />
@@ -172,13 +246,13 @@ export function AdminPostEditorPage() {
                 htmlFor="post-content"
                 className="block text-sm font-medium text-[var(--color-text-secondary)]"
               >
-                Content (Markdown)
+                İçerik (Markdown) *
               </label>
               <textarea
                 id="post-content"
                 value={form.content}
                 onChange={(e) => updateField('content', e.target.value)}
-                placeholder="# My Post&#10;&#10;Write your content in Markdown..."
+                placeholder="# Başlık&#10;&#10;İçeriğinizi Markdown formatında buraya yazın..."
                 className="w-full h-96 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] transition-all duration-200 focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)]/30 font-mono resize-y"
                 required
               />
@@ -186,7 +260,7 @@ export function AdminPostEditorPage() {
 
             <div className="space-y-1.5">
               <label className="block text-sm font-medium text-[var(--color-text-secondary)]">
-                Status
+                Yayın Durumu
               </label>
               <div className="flex gap-3">
                 {(['draft', 'published'] as const).map((status) => (
@@ -200,7 +274,7 @@ export function AdminPostEditorPage() {
                         : 'bg-[var(--color-surface)] text-[var(--color-text-secondary)] border border-[var(--color-border)]'
                     }`}
                   >
-                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                    {status === 'published' ? 'Yayında (Published)' : 'Taslak (Draft)'}
                   </button>
                 ))}
               </div>
@@ -211,14 +285,14 @@ export function AdminPostEditorPage() {
                 type="submit"
                 variant="primary"
                 size="lg"
-                disabled={createMutation.isPending}
+                disabled={saveMutation.isPending}
                 icon={<Save className="w-4 h-4" />}
               >
-                {createMutation.isPending
-                  ? 'Saving...'
+                {saveMutation.isPending
+                  ? 'Kaydediliyor...'
                   : isEditing
-                    ? 'Update Post'
-                    : 'Create Post'}
+                    ? 'Yazıyı Güncelle'
+                    : 'Yazıyı Yayınla / Kaydet'}
               </Button>
               <Button
                 type="button"
@@ -226,13 +300,13 @@ export function AdminPostEditorPage() {
                 size="lg"
                 onClick={() => navigate('/admin/dashboard')}
               >
-                Cancel
+                İptal
               </Button>
             </div>
 
-            {createMutation.isError && (
+            {saveMutation.isError && (
               <p className="text-sm text-red-400">
-                Failed to save post. Make sure the backend is running.
+                Yazı kaydedilirken bir hata oluştu.
               </p>
             )}
           </form>

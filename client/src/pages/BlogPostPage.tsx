@@ -66,12 +66,14 @@ export function BlogPostPage() {
       .trim()
       .slice(0, 160);
 
+  const postOgImage = post.coverImage || `/api/posts/${post.slug}/og-image`;
+
   return (
     <section className="relative overflow-hidden py-12 sm:py-16 min-h-[calc(100vh-4rem)] w-full">
       <SEO
         title={post.title}
         description={cleanDescription}
-        image={post.coverImage || undefined}
+        image={postOgImage}
         url={`/blog/${post.slug}`}
         type="article"
         author="Umut Patlak"

@@ -19,4 +19,29 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            '@tanstack/react-query',
+            'react-helmet-async',
+          ],
+          'vendor-three': ['three'],
+          'vendor-framer': ['framer-motion'],
+          'vendor-icons': ['lucide-react'],
+          'vendor-syntax': [
+            'react-syntax-highlighter',
+            'react-markdown',
+            'rehype-raw',
+            'remark-gfm',
+          ],
+        },
+      },
+    },
+  },
 });

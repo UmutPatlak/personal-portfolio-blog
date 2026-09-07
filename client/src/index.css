@@ -27,10 +27,10 @@
   --color-accent-cyan: #06b6d4;
   --color-accent-emerald: #10b981;
 
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #94a3b8;
-  --color-text-tertiary: #64748b;
-  --color-text-muted: #475569;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+  --color-text-muted: #7888a0;
 
   --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
   --shadow-glow-lg: 0 0 40px rgba(99, 102, 241, 0.2);
@@ -52,9 +52,9 @@ html.light {
   --color-border-hover: rgba(15, 23, 42, 0.16);
 
   --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-tertiary: #64748b;
-  --color-text-muted: #94a3b8;
+  --color-text-secondary: #334155;
+  --color-text-tertiary: #475569;
+  --color-text-muted: #64748b;
 
   --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.1);
   --shadow-glow-lg: 0 0 40px rgba(99, 102, 241, 0.15);
@@ -77,6 +77,12 @@ html.light {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  /* ─── Keyboard Focus Ring (WCAG AA) ─── */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 
   html {

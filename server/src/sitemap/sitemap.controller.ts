@@ -13,7 +13,7 @@ export class SitemapController {
   @Header('Content-Type', 'application/xml')
   async getSitemap() {
     const { publishedPosts, allProjects } = await this.sitemapService.getSitemapData();
-    const rawBaseUrl = this.configService.get<string>('FRONTEND_URL') || 'https://umutpatlak.com';
+    const rawBaseUrl = this.configService.get<string>('FRONTEND_URL') || 'https://your-domain.com';
     const baseUrl = rawBaseUrl.replace(/\/+$/, '');
     
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';

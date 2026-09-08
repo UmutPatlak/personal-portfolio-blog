@@ -463,7 +463,7 @@ async function main() {
 
       <div class="card-footer">
         <div class="footer-url">
-          ⚡ umutpatlak.com
+          ⚡ your-domain.com
         </div>
         <div class="footer-location">
           📍 Istanbul, Turkey • github.com/patlakumut
@@ -742,7 +742,7 @@ async function main() {
 
       <div class="card-footer">
         <div class="footer-url">
-          📖 umutpatlak.com/blog
+          📖 your-domain.com/blog
         </div>
         <div class="author-info">
           By <span class="author-name">Umut Patlak</span> • Full-Stack Developer

@@ -5,7 +5,7 @@
 ## Proje Özeti
 
 Full-stack kişisel portfolyo, interaktif CV ve dinamik Markdown blog platformu.
-**Sahibi:** Umut Patlak — [umutpatlak.com](https://umutpatlak.com)
+**Sahibi:** Umut Patlak — [your-domain.com](https://your-domain.com)
 
 ---
 

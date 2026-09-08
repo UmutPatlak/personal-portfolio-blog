@@ -38,7 +38,7 @@ const DEFAULT_KEYWORDS = [
 ].join(', ');
 
 const DEFAULT_IMAGE = '/og-image.png';
-const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://umutpatlak.com').replace(/\/$/, '');
+const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://your-domain.com').replace(/\/$/, '');
 
 export function SEO({
   title,

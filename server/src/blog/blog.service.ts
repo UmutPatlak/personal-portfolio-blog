@@ -229,7 +229,7 @@ export class BlogService {
           day: 'numeric',
           year: 'numeric',
         })
-      : 'Published on umutpatlak.com';
+      : 'Published on your-domain.com';
 
     const tagsHtml = tags
       .map(
@@ -288,7 +288,7 @@ export class BlogService {
 
       <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;display:flex;align-items:center;justify-content:space-between;font-size:15px;color:#94a3b8;font-family:monospace;">
         <div style="color:#c084fc;font-weight:600;">
-          ⚡ umutpatlak.com/blog
+          ⚡ your-domain.com/blog
         </div>
         <div>
           By <strong style="color:#f8fafc;">Umut Patlak</strong> • Full-Stack Developer
@@ -347,7 +347,7 @@ export class BlogService {
 
       <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;display:flex;align-items:center;justify-content:space-between;font-size:15px;color:#94a3b8;font-family:monospace;">
         <div style="color:#c084fc;font-weight:600;">
-          📖 umutpatlak.com/blog
+          📖 your-domain.com/blog
         </div>
         <div>
           By <strong style="color:#f8fafc;">Umut Patlak</strong> • Full-Stack Developer

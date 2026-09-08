@@ -75,7 +75,7 @@ export function Hero() {
 
               {/* Live badge */}
               <motion.a
-                href="https://umutpatlak.com"
+                href="https://your-domain.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, x: -10, scale: 0.9 }}

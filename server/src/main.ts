@@ -6,6 +6,7 @@ import { join } from 'path';
 import * as fs from 'fs';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,8 @@ async function bootstrap() {
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
   app.use('/uploads', express.static(uploadsDir));
+
+  app.use(helmet());
 
   app.setGlobalPrefix('api', {
     exclude: ['sitemap.xml', 'health'],
@@ -43,8 +46,8 @@ async function bootstrap() {
     'http://localhost:5173',
     'http://localhost:3000',
     'http://localhost:4173',
-    'https://umutpatlak.com',
-    'https://www.umutpatlak.com',
+    'https://your-domain.com',
+    'https://www.your-domain.com',
   ];
 
   const allowedOrigins = Array.from(

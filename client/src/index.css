@@ -251,3 +251,66 @@ html.light {
   0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.1); }
   50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.25); }
 }
+
+/* ─── Print & PDF Optimization Styles ─── */
+@media print {
+  @page {
+    margin: 10mm 12mm;
+    size: A4 portrait;
+  }
+
+  /* Hide navigation, footers, interactive action bar and background effects */
+  nav,
+  footer,
+  .no-print,
+  .print-hidden,
+  [data-no-print="true"] {
+    display: none !important;
+  }
+
+  /* Reset body and layout */
+  body,
+  html,
+  #root,
+  main {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+  }
+
+  .noise-bg::after {
+    display: none !important;
+  }
+
+  /* Print paper container */
+  .resume-paper {
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Prevent awkward page cuts inside items */
+  .page-break-inside-avoid,
+  .resume-section-item {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* High fidelity print colors */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+}
+

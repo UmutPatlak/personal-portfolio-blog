@@ -12,6 +12,7 @@ const HomePage = lazy(() => import('@/pages/HomePage').then(m => ({ default: m.H
 const BlogPage = lazy(() => import('@/pages/BlogPage').then(m => ({ default: m.BlogPage })));
 const BlogPostPage = lazy(() => import('@/pages/BlogPostPage').then(m => ({ default: m.BlogPostPage })));
 const ProjectDetailPage = lazy(() => import('@/pages/ProjectDetailPage').then(m => ({ default: m.ProjectDetailPage })));
+const ResumePage = lazy(() => import('@/pages/ResumePage').then(m => ({ default: m.ResumePage })));
 const AdminLoginPage = lazy(() => import('@/pages/AdminLoginPage').then(m => ({ default: m.AdminLoginPage })));
 const AdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage').then(m => ({ default: m.AdminDashboardPage })));
 const AdminPostEditorPage = lazy(() => import('@/pages/AdminPostEditorPage').then(m => ({ default: m.AdminPostEditorPage })));
@@ -51,6 +52,7 @@ export default function App() {
                 <Route element={<Layout />}>
                   {/* Public Routes */}
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/resume" element={<ResumePage />} />
                   <Route path="/blog" element={<BlogPage />} />
                   <Route path="/blog/:slug" element={<BlogPostPage />} />
                   <Route path="/projects/ocpp-gateway" element={<ProjectDetailPage />} />

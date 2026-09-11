@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Download, Github, Linkedin, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { FileText, Download, Github, Linkedin, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -73,24 +74,7 @@ export function Hero() {
                 {t('hero.available')}
               </motion.div>
 
-              {/* Live badge */}
-              <motion.a
-                href="https://your-domain.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, x: -10, scale: 0.9 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ delay: 0.45, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--color-accent-emerald)]/25 bg-[var(--color-accent-emerald)]/8 text-[var(--color-accent-emerald)] text-xs sm:text-sm font-medium cursor-pointer hover:bg-[var(--color-accent-emerald)]/15 hover:border-[var(--color-accent-emerald)]/40 transition-colors duration-200"
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-accent-emerald)] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-accent-emerald)]" />
-                </span>
-                {t('hero.liveBadge')}
-              </motion.a>
+
             </div>
 
             {/* Title / Greeting */}
@@ -146,8 +130,13 @@ export function Hero() {
               transition={{ delay: 0.65, duration: 0.6 }}
               className="flex flex-wrap items-center gap-3 w-full"
             >
+              <Link to="/resume" className="inline-flex">
+                <Button variant="primary" size="lg" icon={<FileText className="w-4 h-4" />}>
+                  {t('hero.viewResume')}
+                </Button>
+              </Link>
               <a href={cvHref} download className="inline-flex">
-                <Button variant="primary" size="lg" icon={<Download className="w-4 h-4" />}>
+                <Button variant="secondary" size="lg" icon={<Download className="w-4 h-4" />}>
                   {t('hero.downloadCv')}
                 </Button>
               </a>

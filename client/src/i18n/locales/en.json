@@ -6,7 +6,8 @@
     "skills": "Skills",
     "education": "Education",
     "contact": "Contact",
-    "blog": "Blog"
+    "blog": "Blog",
+    "resume": "Resume"
   },
   "hero": {
     "available": "Available for opportunities",
@@ -15,7 +16,8 @@
     "title": "Full-Stack Developer",
     "bio": "Full-stack developer with hands-on production experience contributing to a multi-tenant EV charging SaaS platform. Focused on shipping robust, end-to-end features and scalable full-stack solutions.",
     "location": "Istanbul, Turkey",
-    "downloadCv": "Download CV",
+    "viewResume": "Interactive Resume",
+    "downloadCv": "Download PDF",
     "scrollDown": "Scroll down"
   },
   "about": {
@@ -274,5 +276,50 @@
     "toggle": "Switch language",
     "en": "English",
     "tr": "Türkçe"
+  },
+  "resume": {
+    "pageTitle": "Resume / CV — Umut Patlak",
+    "pageDesc": "Umut Patlak — Full-Stack Developer Interactive & Printable Resume. Specializing in Spring Boot, NestJS, React, Angular, and PostgreSQL.",
+    "badge": "Interactive Web Resume & CV",
+    "backToHome": "Back to Home",
+    "downloadPdf": "Download PDF",
+    "printCv": "Print / Save as PDF",
+    "copyLink": "Copy Link",
+    "copied": "Resume link copied to clipboard!",
+    "getInTouch": "Get in Touch",
+    "availableBadge": "Available for opportunities",
+    "recruiterHighlights": "Key Highlights for Technical Recruiters & Engineering Managers",
+    "stats": {
+      "stations": "1,200+ Live Stations",
+      "stationsDesc": "Multi-tenant EV charging production scale",
+      "endpoints": "70+ REST Endpoints",
+      "endpointsDesc": "End-to-end API design & integration",
+      "architecture": "Full-Stack Polyglot",
+      "architectureDesc": "Spring Boot, NestJS, React, Angular",
+      "team": "~20 Engineers",
+      "teamDesc": "Cross-functional enterprise collaboration"
+    },
+    "summaryTitle": "Executive Summary",
+    "experienceTitle": "Professional Experience",
+    "projectsTitle": "Featured Projects",
+    "skillsTitle": "Technical Skills",
+    "educationTitle": "Education & Languages",
+    "languagesTitle": "Languages",
+    "viewProject": "View Case Study",
+    "viewDemo": "Live Demo",
+    "viewCode": "Source Code",
+    "present": "Present",
+    "keyAchievements": "Key Achievements:",
+    "filter": {
+      "all": "All Skills",
+      "backend": "Backend Focus",
+      "frontend": "Frontend Focus",
+      "devops": "Tools & DevOps"
+    },
+    "toggleView": {
+      "detailed": "Detailed View",
+      "compact": "Compact ATS Mode"
+    },
+    "printNotice": "Tip: This page is fully optimized for standard A4 printing and direct browser 'Save as PDF' output."
   }
 }

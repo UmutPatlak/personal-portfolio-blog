@@ -6,7 +6,8 @@
     "skills": "Yetenekler",
     "education": "Eğitim",
     "contact": "İletişim",
-    "blog": "Blog"
+    "blog": "Blog",
+    "resume": "Özgeçmiş"
   },
   "hero": {
     "available": "Yeni fırsatlara açık",
@@ -15,7 +16,8 @@
     "title": "Full-Stack Geliştirici",
     "bio": "Çok kiracılı (multi-tenant) elektrikli araç şarj SaaS platformunda canlı üretim ortamı deneyimine sahip full-stack geliştirici. Uçtan uca sağlam özellikler ve ölçeklenebilir full-stack çözümler geliştirmeye odaklanıyor.",
     "location": "İstanbul, Türkiye",
-    "downloadCv": "CV İndir",
+    "viewResume": "İnteraktif CV",
+    "downloadCv": "PDF İndir",
     "scrollDown": "Aşağı kaydır"
   },
   "about": {
@@ -274,5 +276,50 @@
     "toggle": "Dili değiştir",
     "en": "English",
     "tr": "Türkçe"
+  },
+  "resume": {
+    "pageTitle": "Özgeçmiş / CV — Umut Patlak",
+    "pageDesc": "Umut Patlak — Full-Stack Geliştirici İnteraktif ve Yazdırılabilir CV. Spring Boot, NestJS, React, Angular ve PostgreSQL uzmanlığı.",
+    "badge": "İnteraktif Web CV & Özgeçmiş",
+    "backToHome": "Ana Sayfaya Dön",
+    "downloadPdf": "PDF İndir",
+    "printCv": "Yazdır / PDF Kaydet",
+    "copyLink": "Bağlantıyı Kopyala",
+    "copied": "CV bağlantısı panoya kopyalandı!",
+    "getInTouch": "İletişime Geç",
+    "availableBadge": "Yeni Fırsatlara Açık",
+    "recruiterHighlights": "İşe Alım Yöneticileri İçin Önemli Vurgular",
+    "stats": {
+      "stations": "1.200+ Canlı İstasyon",
+      "stationsDesc": "Multi-tenant EV şarj üretim ortamı",
+      "endpoints": "70+ REST Endpoint",
+      "endpointsDesc": "Uçtan uca API tasarımı & entegrasyonu",
+      "architecture": "Full-Stack Mimari",
+      "architectureDesc": "Spring Boot, NestJS, React, Angular",
+      "team": "~20 Kişilik Ekip",
+      "teamDesc": "Çapraz fonksiyonel kurumsal mühendislik"
+    },
+    "summaryTitle": "Profesyonel Özet",
+    "experienceTitle": "İş Deneyimi",
+    "projectsTitle": "Öne Çıkan Projeler",
+    "skillsTitle": "Teknik Yetenekler",
+    "educationTitle": "Eğitim & Diller",
+    "languagesTitle": "Yabancı Diller",
+    "viewProject": "Projeyi İncele",
+    "viewDemo": "Canlı Önizleme",
+    "viewCode": "Kaynak Kod",
+    "present": "Günümüz",
+    "keyAchievements": "Öne Çıkan Başarılar:",
+    "filter": {
+      "all": "Tüm Yetenekler",
+      "backend": "Backend Odaklı",
+      "frontend": "Frontend Odaklı",
+      "devops": "Araçlar & DevOps"
+    },
+    "toggleView": {
+      "detailed": "Detaylı Görünüm",
+      "compact": "Kompakt ATS Görünümü"
+    },
+    "printNotice": "İpucu: Bu sayfa A4 kağıt boyutuna ve tarayıcıdan doğrudan 'PDF Olarak Kaydet' çıktısına tam uyumludur."
   }
 }

@@ -21,6 +21,7 @@ export function Navbar() {
     { href: '/#skills', id: 'skills', label: t('nav.skills') },
     { href: '/#contact', id: 'contact', label: t('nav.contact') },
     { href: '/blog', id: 'blog', label: t('nav.blog') },
+    { href: '/resume', id: 'resume', label: t('nav.resume') },
   ];
 
   useEffect(() => {
@@ -75,6 +76,9 @@ export function Navbar() {
   };
 
   const isLinkActive = (link: { href: string; id?: string }) => {
+    if (link.href === '/resume') {
+      return location.pathname.startsWith('/resume');
+    }
     if (link.href === '/blog') {
       return location.pathname.startsWith('/blog');
     }

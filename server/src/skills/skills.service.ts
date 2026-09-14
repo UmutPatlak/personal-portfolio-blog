@@ -121,22 +121,26 @@ export class SkillsService {
   }
 
   async reorderCategories(items: { id: number; order: number }[]) {
-    for (const item of items) {
-      await this.db
-        .update(skillCategories)
-        .set({ order: item.order })
-        .where(eq(skillCategories.id, item.id));
-    }
+    await Promise.all(
+      items.map((item) =>
+        this.db
+          .update(skillCategories)
+          .set({ order: item.order })
+          .where(eq(skillCategories.id, item.id)),
+      ),
+    );
     return { message: 'Categories reordered successfully' };
   }
 
   async reorderSkills(items: { id: number; order: number }[]) {
-    for (const item of items) {
-      await this.db
-        .update(skills)
-        .set({ order: item.order })
-        .where(eq(skills.id, item.id));
-    }
+    await Promise.all(
+      items.map((item) =>
+        this.db
+          .update(skills)
+          .set({ order: item.order })
+          .where(eq(skills.id, item.id)),
+      ),
+    );
     return { message: 'Skills reordered successfully' };
   }
 }

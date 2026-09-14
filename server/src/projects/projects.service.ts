@@ -80,12 +80,14 @@ export class ProjectsService {
   }
 
   async reorder(items: { id: number; order: number }[]) {
-    for (const item of items) {
-      await this.db
-        .update(projects)
-        .set({ order: item.order })
-        .where(eq(projects.id, item.id));
-    }
+    await Promise.all(
+      items.map((item) =>
+        this.db
+          .update(projects)
+          .set({ order: item.order })
+          .where(eq(projects.id, item.id)),
+      ),
+    );
     return { message: 'Projects reordered successfully' };
   }
 }

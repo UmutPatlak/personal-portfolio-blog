@@ -113,6 +113,9 @@ export class ExperiencesService {
       if (!exp) {
         throw new NotFoundException('Experience not found');
       }
+    } else {
+      // Verify existence before manipulating related achievements
+      await this.findOne(id);
     }
 
     if (dto.achievements !== undefined) {
@@ -147,12 +150,14 @@ export class ExperiencesService {
   }
 
   async reorder(items: { id: number; order: number }[]) {
-    for (const item of items) {
-      await this.db
-        .update(experiences)
-        .set({ order: item.order })
-        .where(eq(experiences.id, item.id));
-    }
+    await Promise.all(
+      items.map((item) =>
+        this.db
+          .update(experiences)
+          .set({ order: item.order })
+          .where(eq(experiences.id, item.id)),
+      ),
+    );
     return { message: 'Experiences reordered successfully' };
   }
 }

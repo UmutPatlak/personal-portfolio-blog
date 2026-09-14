@@ -1,46 +1,37 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
 import { SitemapService } from './sitemap.service';
 import { DATABASE_TOKEN } from '../db/database.module';
+import { buildMockDb, type MockDb } from '../common/test-helpers';
 
 describe('SitemapService', () => {
   let service: SitemapService;
-  let mockDb: any;
+  let mockDb: MockDb;
+  let mockConfigService: { get: jest.Mock };
 
   const publishedPost = {
     id: 1,
     title: 'Published Post',
     slug: 'published-post',
     status: 'published',
-    publishedAt: new Date('2024-06-01'),
-    createdAt: new Date('2024-01-01'),
-  };
-
-  const draftPost = {
-    id: 2,
-    title: 'Draft Post',
-    slug: 'draft-post',
-    status: 'draft',
-    publishedAt: null,
-    createdAt: new Date('2024-02-01'),
-  };
-
-  const mockProject = {
-    id: 1,
-    title: 'Project 1',
-    order: 0,
+    publishedAt: new Date('2024-06-01T00:00:00Z'),
+    createdAt: new Date('2024-01-01T00:00:00Z'),
   };
 
   beforeEach(async () => {
-    mockDb = {
-      select: jest.fn().mockReturnThis(),
-      from: jest.fn().mockReturnThis(),
-      where: jest.fn(),
+    mockDb = buildMockDb();
+    mockConfigService = {
+      get: jest.fn().mockImplementation((key: string) => {
+        if (key === 'FRONTEND_URL') return 'https://umutpatlak.com';
+        return undefined;
+      }),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SitemapService,
         { provide: DATABASE_TOKEN, useValue: mockDb },
+        { provide: ConfigService, useValue: mockConfigService },
       ],
     }).compile();
 
@@ -51,84 +42,77 @@ describe('SitemapService', () => {
     jest.clearAllMocks();
   });
 
-  describe('getSitemapData', () => {
-    it('should return only published posts and all projects', async () => {
-      // First chain: select().from(posts).where(eq(posts.status, 'published'))
-      // Second chain: select().from(projects)
-      let selectCallCount = 0;
-      mockDb.select.mockImplementation(() => {
-        selectCallCount++;
-        if (selectCallCount === 1) {
-          // Posts query — has where
-          return {
-            from: jest.fn().mockReturnValue({
-              where: jest.fn().mockResolvedValue([publishedPost]),
-            }),
-          };
-        } else {
-          // Projects query — no where
-          return {
-            from: jest.fn().mockResolvedValue([mockProject]),
-          };
-        }
-      });
+  describe('getPublishedPosts & getSitemapData', () => {
+    it('should return only published posts', async () => {
+      mockDb._onSelect([publishedPost]);
 
-      const result = await service.getSitemapData();
+      const result = await service.getPublishedPosts();
 
-      expect(result.publishedPosts).toEqual([publishedPost]);
-      expect(result.publishedPosts).not.toContainEqual(
-        expect.objectContaining({ status: 'draft' }),
-      );
-      expect(result.allProjects).toEqual([mockProject]);
+      expect(result).toEqual([publishedPost]);
+      expect(mockDb.select).toHaveBeenCalled();
     });
 
-    it('should return empty arrays when no data exists', async () => {
-      let selectCallCount = 0;
-      mockDb.select.mockImplementation(() => {
-        selectCallCount++;
-        if (selectCallCount === 1) {
-          return {
-            from: jest.fn().mockReturnValue({
-              where: jest.fn().mockResolvedValue([]),
-            }),
-          };
-        } else {
-          return {
-            from: jest.fn().mockResolvedValue([]),
-          };
-        }
-      });
+    it('should return empty array when no published posts', async () => {
+      mockDb._onSelect([]);
 
-      const result = await service.getSitemapData();
+      const result = await service.getPublishedPosts();
 
-      expect(result.publishedPosts).toEqual([]);
-      expect(result.allProjects).toEqual([]);
+      expect(result).toEqual([]);
     });
 
-    it('should exclude draft posts from published posts list', async () => {
-      // The service uses eq(posts.status, 'published') filter,
-      // so we only return published posts
-      let selectCallCount = 0;
-      mockDb.select.mockImplementation(() => {
-        selectCallCount++;
-        if (selectCallCount === 1) {
-          return {
-            from: jest.fn().mockReturnValue({
-              where: jest.fn().mockResolvedValue([publishedPost]),
-            }),
-          };
-        } else {
-          return {
-            from: jest.fn().mockResolvedValue([mockProject]),
-          };
-        }
-      });
+    it('should return published posts wrapped in getSitemapData', async () => {
+      mockDb._onSelect([publishedPost]);
 
       const result = await service.getSitemapData();
 
-      // Verify only published post is returned, not draft
-      expect(result.publishedPosts.length).toBe(1);
-      expect(result.publishedPosts[0].status).toBe('published');
+      expect(result).toEqual({ publishedPosts: [publishedPost] });
+    });
+  });
+
+  describe('generateSitemapXml', () => {
+    it('should generate valid sitemap XML with static pages and published posts', async () => {
+      mockDb._onSelect([publishedPost]);
+
+      const xml = await service.generateSitemapXml();
+
+      expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
+      expect(xml).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+      expect(xml).toContain('<loc>https://umutpatlak.com</loc>');
+      expect(xml).toContain('<loc>https://umutpatlak.com/blog</loc>');
+      expect(xml).toContain('<loc>https://umutpatlak.com/projects/ocpp-gateway</loc>');
+      expect(xml).toContain('<loc>https://umutpatlak.com/blog/published-post</loc>');
+      expect(xml).toContain('<lastmod>2024-06-01T00:00:00.000Z</lastmod>');
+      expect(xml).toContain('</urlset>');
+    });
+
+    it('should use default domain when FRONTEND_URL is not set', async () => {
+      mockConfigService.get.mockReturnValue(undefined);
+      mockDb._onSelect([]);
+
+      const xml = await service.generateSitemapXml();
+
+      expect(xml).toContain('<loc>https://your-domain.com</loc>');
+      expect(xml).toContain('<loc>https://your-domain.com/blog</loc>');
+    });
+
+    it('should strip trailing slash from FRONTEND_URL', async () => {
+      mockConfigService.get.mockReturnValue('https://umutpatlak.com///');
+      mockDb._onSelect([]);
+
+      const xml = await service.generateSitemapXml();
+
+      expect(xml).toContain('<loc>https://umutpatlak.com</loc>');
+      expect(xml).not.toContain('https://umutpatlak.com///');
+    });
+
+    it('should fallback to current date when post has no publishedAt or createdAt', async () => {
+      const postNoDate = { ...publishedPost, publishedAt: null, createdAt: null };
+      mockDb._onSelect([postNoDate]);
+
+      const xml = await service.generateSitemapXml();
+
+      expect(xml).toContain('<loc>https://umutpatlak.com/blog/published-post</loc>');
+      expect(xml).toContain('<lastmod>');
     });
   });
 });

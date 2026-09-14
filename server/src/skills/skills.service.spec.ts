@@ -36,6 +36,14 @@ describe('SkillsService', () => {
       expect(result).toEqual([{ ...mockCategory, skills: [mockSkill] }]);
     });
 
+    it('should return empty skills array for category without skills', async () => {
+      mockDb._onSelect([mockCategory], []);
+
+      const result = await service.findAll();
+
+      expect(result).toEqual([{ ...mockCategory, skills: [] }]);
+    });
+
     it('should return empty array when no categories', async () => {
       mockDb._onSelect([]);
 
@@ -52,6 +60,15 @@ describe('SkillsService', () => {
       const result = await service.createCategory({ name: 'Frontend', icon: 'react' });
 
       expect(result).toEqual({ ...mockCategory, skills: [] });
+    });
+
+    it('should handle category creation with optional icon/order omitted', async () => {
+      const categoryNoIcon = { id: 2, name: 'DevOps', icon: null, order: 0 };
+      mockDb._onInsert([categoryNoIcon]);
+
+      const result = await service.createCategory({ name: 'DevOps' });
+
+      expect(result).toEqual({ ...categoryNoIcon, skills: [] });
     });
   });
 

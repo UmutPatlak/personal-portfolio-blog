@@ -61,6 +61,41 @@ describe('BlogService', () => {
       expect(result.page).toBe(1);
       expect(result.limit).toBe(10);
     });
+
+    it('should default total to 0 when count result is empty', async () => {
+      mockDb._onSelect([mockPost], [{}]);
+
+      const result = await service.findAll({});
+
+      expect(result.total).toBe(0);
+      expect(result.limit).toBe(10);
+    });
+
+    it('should filter by tag', async () => {
+      mockDb._onSelect([mockPost], [{ count: 1 }]);
+
+      const result = await service.findAll({ tag: 'nestjs' });
+
+      expect(result.data).toEqual([mockPost]);
+      expect(mockDb.select).toHaveBeenCalled();
+    });
+
+    it('should filter by search keyword', async () => {
+      mockDb._onSelect([mockPost], [{ count: 1 }]);
+
+      const result = await service.findAll({ search: 'Test' });
+
+      expect(result.data).toEqual([mockPost]);
+      expect(mockDb.select).toHaveBeenCalled();
+    });
+
+    it('should filter by both tag and search', async () => {
+      mockDb._onSelect([mockPost], [{ count: 1 }]);
+
+      const result = await service.findAll({ tag: 'nestjs', search: 'Test' });
+
+      expect(result.data).toEqual([mockPost]);
+    });
   });
 
   describe('adminFindAll', () => {
@@ -80,6 +115,32 @@ describe('BlogService', () => {
 
       expect(result.data).toEqual([mockDraftPost]);
       expect(result.total).toBe(1);
+    });
+
+    it('should filter by search keyword', async () => {
+      mockDb._onSelect([mockPost], [{ count: 1 }]);
+
+      const result = await service.adminFindAll({ search: 'Draft' });
+
+      expect(result.data).toEqual([mockPost]);
+      expect(mockDb.select).toHaveBeenCalled();
+    });
+
+    it('should filter by published status', async () => {
+      mockDb._onSelect([mockPost], [{ count: 1 }]);
+
+      const result = await service.adminFindAll({ status: 'published' });
+
+      expect(result.data).toEqual([mockPost]);
+      expect(result.total).toBe(1);
+    });
+
+    it('should default total to 0 when count result is empty', async () => {
+      mockDb._onSelect([], [{}]);
+
+      const result = await service.adminFindAll({ status: 'all' });
+
+      expect(result.total).toBe(0);
     });
   });
 
@@ -162,6 +223,26 @@ describe('BlogService', () => {
       expect(result.publishedAt).toBeNull();
     });
 
+    it('should regenerate slug when title is updated', async () => {
+      const updated = { ...mockPost, title: 'New Cool Title', slug: 'new-cool-title-123' };
+      mockDb._onUpdate([updated]);
+
+      const result = await service.update(1, { title: 'New Cool Title' });
+
+      expect(result.title).toBe('New Cool Title');
+      expect(mockDb.update).toHaveBeenCalled();
+    });
+
+    it('should recalculate readingTime when content is updated', async () => {
+      const updated = { ...mockPost, content: 'Lots of new content...', readingTime: 3 };
+      mockDb._onUpdate([updated]);
+
+      const result = await service.update(1, { content: 'Lots of new content...' });
+
+      expect(result.readingTime).toBe(3);
+      expect(mockDb.update).toHaveBeenCalled();
+    });
+
     it('should throw NotFoundException for non-existent id', async () => {
       mockDb._onUpdate([]);
 
@@ -187,6 +268,12 @@ describe('BlogService', () => {
       const result = await service.toggleStatus(2);
 
       expect(result.status).toBe('published');
+    });
+
+    it('should throw NotFoundException when toggling non-existent post', async () => {
+      mockDb._onSelect([]);
+
+      await expect(service.toggleStatus(999)).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -338,6 +425,68 @@ describe('BlogService', () => {
       );
 
       expect(capturedValues.readingTime).toBe(1);
+    });
+  });
+
+  describe('generateGeneralBlogOgSvg', () => {
+    it('should return valid general SVG string', () => {
+      const svg = service.generateGeneralBlogOgSvg();
+
+      expect(svg).toContain('<svg');
+      expect(svg).toContain('</svg>');
+      expect(svg).toContain('Software Architecture &amp; Modern Web Insights');
+    });
+  });
+
+  describe('generateOgSvg', () => {
+    it('should generate SVG with post details for existing slug', async () => {
+      mockDb._onSelect([mockPost]);
+
+      const svg = await service.generateOgSvg('test-post-abc123');
+
+      expect(svg).toContain('<svg');
+      expect(svg).toContain('</svg>');
+      expect(svg).toContain('Test Post');
+      expect(svg).toContain('test-post-abc123');
+      expect(svg).toContain('nestjs');
+    });
+
+    it('should handle post with long slug by truncating in display text', async () => {
+      const longSlug = 'this-is-a-very-very-very-long-post-slug-that-exceeds-35-chars';
+      const postWithLongSlug = { ...mockPost, slug: longSlug };
+      mockDb._onSelect([postWithLongSlug]);
+
+      const svg = await service.generateOgSvg(longSlug);
+
+      expect(svg).toContain('<svg');
+      expect(svg).toContain('this-is-a-very-very-very-long-po...');
+    });
+
+    it('should fallback to general blog SVG when post is not found', async () => {
+      mockDb._onSelect([]);
+
+      const svg = await service.generateOgSvg('non-existent-slug');
+
+      expect(svg).toContain('<svg');
+      expect(svg).toContain('Software Architecture &amp; Modern Web Insights');
+    });
+
+    it('should handle post with null title, tags, readingTime and unpublished date', async () => {
+      const sparsePost = {
+        ...mockPost,
+        title: null,
+        tags: null,
+        readingTime: null,
+        publishedAt: null,
+      };
+      mockDb._onSelect([sparsePost]);
+
+      const svg = await service.generateOgSvg('test-post-abc123');
+
+      expect(svg).toContain('<svg');
+      expect(svg).toContain('Technical Article');
+      expect(svg).toContain('5 min read');
+      expect(svg).toContain('Published on your-domain.com');
     });
   });
 });

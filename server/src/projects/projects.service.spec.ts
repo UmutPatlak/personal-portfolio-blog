@@ -50,6 +50,14 @@ describe('ProjectsService', () => {
 
       expect(result).toEqual([mockProject]);
     });
+
+    it('should return empty array when no projects exist', async () => {
+      mockDb._onSelect([]);
+
+      const result = await service.findAll();
+
+      expect(result).toEqual([]);
+    });
   });
 
   describe('findOne', () => {
@@ -79,6 +87,19 @@ describe('ProjectsService', () => {
       });
 
       expect(result).toEqual(mockProject);
+      expect(mockDb.insert).toHaveBeenCalled();
+    });
+
+    it('should handle creation with empty/omitted technologies defaulting to empty array', async () => {
+      const projectWithoutTech = { ...mockProject, technologies: [] };
+      mockDb._onInsert([projectWithoutTech]);
+
+      const result = await service.create({
+        title: 'My Project',
+        description: 'A cool project',
+      } as any);
+
+      expect(result.technologies).toEqual([]);
       expect(mockDb.insert).toHaveBeenCalled();
     });
   });

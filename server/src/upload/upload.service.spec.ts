@@ -21,6 +21,23 @@ describe('UploadService', () => {
     (fs.existsSync as jest.Mock).mockReturnValue(true);
   });
 
+  describe('initialization and ensureDirectories', () => {
+    it('should create directories if they do not exist', () => {
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
+
+      new UploadService();
+
+      expect(fs.mkdirSync).toHaveBeenCalledWith(
+        expect.stringContaining('images'),
+        { recursive: true },
+      );
+      expect(fs.mkdirSync).toHaveBeenCalledWith(
+        expect.stringContaining('documents'),
+        { recursive: true },
+      );
+    });
+  });
+
   // ─── saveImage ────────────────────────────────────────
 
   describe('saveImage', () => {
@@ -89,6 +106,14 @@ describe('UploadService', () => {
     it('should throw BadRequestException when file is undefined', () => {
       expect(() => service.saveImage(undefined as any)).toThrow(BadRequestException);
     });
+
+    it('should default to .webp extension when originalname has no extension', () => {
+      const noExtFile = { ...validImageFile, originalname: 'photo' };
+      const result = service.saveImage(noExtFile as Express.Multer.File);
+
+      expect(result.filename).toBe('test-uuid-1234.webp');
+      expect(result.url).toBe('/uploads/images/test-uuid-1234.webp');
+    });
   });
 
   // ─── saveDocument ─────────────────────────────────────
@@ -137,6 +162,14 @@ describe('UploadService', () => {
     it('should throw BadRequestException when no file provided', () => {
       expect(() => service.saveDocument(null as any)).toThrow(BadRequestException);
       expect(() => service.saveDocument(null as any)).toThrow('No document file provided');
+    });
+
+    it('should default to .pdf extension when originalname has no extension', () => {
+      const noExtFile = { ...validPdfFile, originalname: 'resume' };
+      const result = service.saveDocument(noExtFile as Express.Multer.File);
+
+      expect(result.filename).toBe('test-uuid-1234.pdf');
+      expect(result.url).toBe('/uploads/documents/test-uuid-1234.pdf');
     });
   });
 });

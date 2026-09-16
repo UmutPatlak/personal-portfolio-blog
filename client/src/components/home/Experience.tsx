@@ -98,23 +98,13 @@ export function Experience() {
 
                 <ul className="space-y-3.5 w-full">
                   {exp.achievements.map((achievement, i) => (
-                    <motion.li
+                    <li
                       key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.4 + i * 0.06, duration: 0.4 }}
                       className="flex gap-2.5 sm:gap-3 items-start text-xs sm:text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed"
                     >
-                      <motion.span
-                        initial={{ scale: 0 }}
-                        whileInView={{ scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.5 + i * 0.06, type: 'spring', stiffness: 400 }}
-                        className="mt-1.5 sm:mt-2 w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] shrink-0"
-                      />
+                      <span className="mt-1.5 sm:mt-2 w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] shrink-0" />
                       <span className="min-w-0 flex-1 break-words">{achievement}</span>
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>

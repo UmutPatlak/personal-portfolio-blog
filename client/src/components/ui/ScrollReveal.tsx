@@ -45,8 +45,11 @@ function getVariants(
       base.visible.scale = 1;
       break;
     case 'blur':
-      base.hidden.filter = 'blur(12px)';
-      base.visible.filter = 'blur(0px)';
+      // Replaced expensive rasterized filter: blur() with smooth opacity + translateY transform
+      if (direction === 'none') {
+        base.hidden.y = distance || 24;
+        base.visible.y = 0;
+      }
       break;
     case 'rotate':
       base.hidden.rotate = direction === 'left' ? -8 : direction === 'right' ? 8 : -5;

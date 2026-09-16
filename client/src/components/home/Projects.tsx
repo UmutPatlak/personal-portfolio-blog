@@ -268,12 +268,12 @@ export function Projects() {
               </ScrollReveal>
             </div>
 
-            {/* Tech Stack — slide up with blur */}
+            {/* Tech Stack — slide up with opacity */}
             <motion.div
-              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="pt-4 border-t border-[var(--color-border)] flex flex-wrap items-center gap-2"
             >
               <span className="text-xs font-semibold text-[var(--color-text-tertiary)] uppercase tracking-wider mr-2">

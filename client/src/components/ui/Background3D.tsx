@@ -26,7 +26,7 @@ export function Background3D() {
       antialias: true,
       powerPreference: 'high-performance',
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0); // Transparent background
     renderer.domElement.style.display = 'block';
@@ -265,7 +265,7 @@ export function Background3D() {
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
       const isMobile = width < 768;
       if (isMobile) {
@@ -285,6 +285,7 @@ export function Background3D() {
     let animationFrameId: number;
     const clock = new THREE.Clock();
     let isTabVisible = !document.hidden;
+    let lastMorphProgress = -1;
 
     const handleVisibilityChange = () => {
       isTabVisible = !document.hidden;
@@ -303,43 +304,48 @@ export function Background3D() {
 
       // Smooth scroll interpolation (lerp)
       const lerpFactor = prefersReducedMotion ? 1 : 0.06;
-      currentScrollProgress += (targetScrollProgress - currentScrollProgress) * lerpFactor;
+      const scrollDelta = targetScrollProgress - currentScrollProgress;
+      if (Math.abs(scrollDelta) > 0.00005) {
+        currentScrollProgress += scrollDelta * lerpFactor;
+      } else {
+        currentScrollProgress = targetScrollProgress;
+      }
       mouseX += (targetMouseX - mouseX) * 0.04;
       mouseY += (targetMouseY - mouseY) * 0.04;
 
-      // ─── Vertex Morphing Engine ───
-      // 4 morph segments connecting 5 shapes:
-      // 0.00 -> Shape 0 (Icosahedron)
-      // 0.25 -> Shape 1 (Octahedron)
-      // 0.50 -> Shape 2 (Torus)
-      // 0.75 -> Shape 3 (Cube)
-      // 1.00 -> Shape 4 (Sphere)
-      const totalSegments = shapes.length - 1; // 4
-      const scaledProgress = currentScrollProgress * totalSegments;
-      const segmentIndex = Math.min(totalSegments - 1, Math.floor(scaledProgress));
-      const segmentFraction = scaledProgress - segmentIndex;
+      // ─── Vertex Morphing Engine with Epsilon Check ───
+      // Only recalculate buffer attributes and send GPU update if scroll progress changed
+      const morphDelta = Math.abs(currentScrollProgress - lastMorphProgress);
+      if (morphDelta > 0.0002) {
+        lastMorphProgress = currentScrollProgress;
 
-      // Smoothstep easing for organic vertex morph transition
-      const morphT = segmentFraction * segmentFraction * (3 - 2 * segmentFraction);
+        const totalSegments = shapes.length - 1; // 4
+        const scaledProgress = currentScrollProgress * totalSegments;
+        const segmentIndex = Math.min(totalSegments - 1, Math.floor(scaledProgress));
+        const segmentFraction = scaledProgress - segmentIndex;
 
-      const shapeA = shapes[segmentIndex]!;
-      const shapeB = shapes[segmentIndex + 1] ?? shapeA;
-      const currentPositions = posAttr.array as Float32Array;
+        // Smoothstep easing for organic vertex morph transition
+        const morphT = segmentFraction * segmentFraction * (3 - 2 * segmentFraction);
 
-      const len = currentPositions.length;
-      for (let j = 0; j < len; j += 3) {
-        const ax = shapeA[j]!;
-        const ay = shapeA[j + 1]!;
-        const az = shapeA[j + 2]!;
-        const bx = shapeB[j]!;
-        const by = shapeB[j + 1]!;
-        const bz = shapeB[j + 2]!;
+        const shapeA = shapes[segmentIndex]!;
+        const shapeB = shapes[segmentIndex + 1] ?? shapeA;
+        const currentPositions = posAttr.array as Float32Array;
 
-        currentPositions[j]     = ax + (bx - ax) * morphT;
-        currentPositions[j + 1] = ay + (by - ay) * morphT;
-        currentPositions[j + 2] = az + (bz - az) * morphT;
+        const len = currentPositions.length;
+        for (let j = 0; j < len; j += 3) {
+          const ax = shapeA[j]!;
+          const ay = shapeA[j + 1]!;
+          const az = shapeA[j + 2]!;
+          const bx = shapeB[j]!;
+          const by = shapeB[j + 1]!;
+          const bz = shapeB[j + 2]!;
+
+          currentPositions[j]     = ax + (bx - ax) * morphT;
+          currentPositions[j + 1] = ay + (by - ay) * morphT;
+          currentPositions[j + 2] = az + (bz - az) * morphT;
+        }
+        posAttr.needsUpdate = true;
       }
-      posAttr.needsUpdate = true;
 
       // ─── Smooth Rotation with Scroll & Ambient Idle ───
       const idleSpeed = prefersReducedMotion ? 0 : 0.2;

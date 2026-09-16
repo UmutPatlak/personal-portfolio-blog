@@ -27,24 +27,23 @@ export function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  // Parallax glow orbs drift away as user scrolls
+  // Parallax glow orbs drift away smoothly as user scrolls (translateY only, no scale to prevent re-rasterization)
   const orbY1 = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const orbY2 = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const orbScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.2]);
 
   return (
     <section
       ref={sectionRef}
       className="relative overflow-hidden py-16 sm:py-20 lg:py-28 w-full flex items-center min-h-[calc(100vh-5rem)]"
     >
-      {/* Background glow orbs - parallax */}
+      {/* Background glow orbs - parallax translateY */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
         <motion.div
-          style={{ y: orbY1, scale: orbScale }}
+          style={{ y: orbY1 }}
           className="absolute -top-12 -left-12 w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-[var(--color-accent)]/8 blur-3xl"
         />
         <motion.div
-          style={{ y: orbY2, scale: orbScale }}
+          style={{ y: orbY2 }}
           className="absolute -bottom-12 -right-12 w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-[var(--color-accent-secondary)]/8 blur-3xl"
         />
         <motion.div
@@ -57,9 +56,9 @@ export function Hero() {
         <div className="max-w-3xl">
           {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="flex flex-col items-start min-w-0 w-full"
           >
             {/* Status badges */}
